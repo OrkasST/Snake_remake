@@ -1,5 +1,6 @@
 import { Controller } from "./Controller.js";
 import { GameObject } from "./Objects/GameObject.js";
+import { Shot } from "./Objects/Shot.js";
 import { Game_Part_001 } from "./Scenes/Game_Part_01.js";
 import { Loading } from "./Scenes/Loading.js";
 import { Scene } from "./Scenes/Scene.js";
@@ -64,7 +65,7 @@ export class Game {
       data.forEach((el) => {
         if (
           !Array.isArray(el) &&
-          el.type !== "map_image" &&
+          // el.type !== "map_image" &&
           !el.objectCreatingFunctionIsSet
         ) {
           el.setObjectCreatingFunction(this.createObject, this);
@@ -147,12 +148,7 @@ export class Game {
           break;
         case "create":
           this.createObject(
-            new GameObject({
-              type: "destructive",
-              size: {
-                width: 20,
-                height: 20,
-              },
+            new Shot({
               position: {
                 x:
                   Math.floor(
@@ -163,15 +159,8 @@ export class Game {
                     this.player.position.y + this.player.size.height / 2
                   ) - 10,
               },
+              direction: this.player.movement.direction,
               status: el[2],
-              movement: {
-                disabledX: "none",
-                disabledY: "none",
-                direction: this.player.movement.direction,
-                previousDirection: "none",
-                speed: 4,
-              },
-              color: "#00FF00",
             })
           );
       }

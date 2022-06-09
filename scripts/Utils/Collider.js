@@ -27,9 +27,25 @@ export class Collider {
             this._teleport(body, object, this.staticObjects);
         } else checked++;
       });
+      // bodies.forEach((collider) => {
+      //   if (body === collider || !collider.collisionBody) return;
+      //   // debugger;
+      //   if (
+      //     body.position.x + body.size.width >= collider.position.x &&
+      //     body.position.x <= collider.position.x + collider.size.width &&
+      //     body.position.y + body.size.height >= collider.position.y &&
+      //     body.position.y <= collider.position.y + collider.size.height
+      //   ) {
+      //     // this._checkCorner(body, collider);
+      //   } else checked++;
+      //   // debugger;
+      // });
       if (checked === this.staticObjects.length) {
+        //+ bodies.length - 1) {
         body.movement.disabledX = "none";
         body.movement.disabledY = "none";
+      } else {
+        console.log("Nope!");
       }
     });
   }
@@ -53,7 +69,8 @@ export class Collider {
       body.position.x -= 4;
       body.status = "standing";
     }
-    this._checkForDestruction(body);
+    //this._checkForDestruction(body);
+    body.onCollision(object);
   }
 
   _teleport(body, enterPortal, staticObjects) {

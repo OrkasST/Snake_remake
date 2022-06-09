@@ -2,8 +2,8 @@ import { AI } from "../AI/AI.js";
 
 export class GameObject {
   constructor({
-    name = "StandartObject",
-    type = "solid", //player, destructing, spawner
+    name = "StandartObject", // shot, player,
+    type = "solid", //player, spawner
     position = {
       x: 0,
       y: 0,
@@ -30,6 +30,7 @@ export class GameObject {
     isDisplayed = true,
     texture = null,
     objectCreatingFunction = null,
+    isDestructive = false,
   }) {
     this.name = name;
     this.type = type;
@@ -41,6 +42,7 @@ export class GameObject {
     this.AIType = AIType;
     if (this.AIType) this.AI = new AI({ type: this.AIType });
     this.texture = texture;
+    this.isDestructive = isDestructive;
     /* 
         {
         name: 'some_image',
@@ -63,5 +65,8 @@ export class GameObject {
   setObjectCreatingFunction(callback, caller) {
     this._createObject = callback.bind(caller);
     this.objectCreatingFunctionIsSet = true;
+  }
+  onCollision() {
+    if (this.isDestructive) this.destroy();
   }
 }

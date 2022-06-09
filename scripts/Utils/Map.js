@@ -1,3 +1,4 @@
+import { GameObject } from "../Objects/GameObject.js";
 import { SpriteSheet } from "./SpriteSheet.js";
 
 export class Map {
@@ -93,7 +94,7 @@ export class Map {
     //     hitboxes: hitboxes
     // });
 
-    this.image = {
+    this.image = new GameObject({
       type: "map_image",
       position: {
         x: 0,
@@ -113,7 +114,8 @@ export class Map {
         disabled: "all",
       },
       isDisplayed: true,
-    };
+    });
+    this.image.collisionBody = false;
     this.spawnPoints = spawnPoints;
     this.hitboxes = hitboxes;
     // console.log(this.spawnPoints);

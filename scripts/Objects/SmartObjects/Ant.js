@@ -45,4 +45,8 @@ export class Ant extends GameObject {
         break;
     }
   }
+
+  onCollision(object) {
+    if (object.type === "shot") this.destroy();
+  }
 }

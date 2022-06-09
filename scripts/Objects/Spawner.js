@@ -18,9 +18,9 @@ export class Spawner extends GameObject {
     this.spawnRadius = spawnRadius;
     this.path = [
       { x: 0, y: 0 },
-      { x: 50, y: 30 },
-      { x: 60, y: 70 },
-      { x: 200, y: 150 },
+      { x: 500, y: 30 },
+      { x: 60, y: 700 },
+      { x: 1000, y: 1050 },
     ];
   }
 

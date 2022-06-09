@@ -10,7 +10,7 @@ export class Game_Part_001 {
     this.objects.map = new Map({});
     this.objects.player = new Player({
       isDisplayed: false,
-      position: { x: 1981, y: 306 },
+      position: { x: 19, y: 30 },
     });
     this.objects.playerSnake = new SnakeBody({
       head: this.objects.player,
