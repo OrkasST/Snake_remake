@@ -20,6 +20,12 @@ export class Game {
       { code: "KeyD", action: "move_player_right" },
       { code: "KeyQ", action: "create_object_moving" },
     ]);
+    this.dirnCodes = {
+      right: 0,
+      left: 1,
+      up: 2,
+      down: 3,
+    };
     // this.catchTime = false;
     // this.lastTime = 0;
     this.currentScene = null;
@@ -78,7 +84,7 @@ export class Game {
         if (el.type === "spawner") el.spawn(time);
         el.update?.();
         if (el.movement.disabled === "all") return;
-        switch (el.status) {
+        switch (el.movement.status) {
           case "standing":
             break;
           case "moving":
@@ -142,7 +148,8 @@ export class Game {
       switch (el[0]) {
         case "move":
           if (this[el[1]].movement.disabled === "all") return;
-          this[el[1]].status = "moving";
+          console.log(this[el[1]].movement);
+          this[el[1]].movement.status = "moving";
           this[el[1]].movement.direction = el[2];
           this.log = true;
           break;
@@ -153,14 +160,25 @@ export class Game {
                 x:
                   Math.floor(
                     this.player.position.x + this.player.size.width / 2
-                  ) - 10,
+                  ) -
+                  10 -
+                  (this.player.movement.direction === "left"
+                    ? this.player.size.width
+                    : this.player.movement.direction === "right"
+                    ? -this.player.size.width - 10
+                    : 0),
                 y:
                   Math.floor(
                     this.player.position.y + this.player.size.height / 2
-                  ) - 10,
+                  ) -
+                  10 -
+                  (this.player.movement.direction === "up"
+                    ? this.player.size.height
+                    : this.player.movement.direction === "down"
+                    ? -this.player.size.height - 10
+                    : 0),
               },
               direction: this.player.movement.direction,
-              status: el[2],
             })
           );
       }

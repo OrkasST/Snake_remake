@@ -73,10 +73,35 @@ export class Screen {
       width: obj.size.width,
       height: obj.size.height,
     });
+    if (obj.isAlive || obj._isUnderAttack)
+      this.drawHP(
+        obj.position.x + this.camera.position.x + obj.size.width / 2,
+        obj.position.y + this.camera.position.y,
+        obj.status.maxHP,
+        obj.status.currentHP
+      );
   }
 
   drawArray(array) {
     for (let i = array.length - 1; i >= 0; i--) this.drawObject(array[i]);
+  }
+
+  drawHP(centerX, y, maxHP, currentHP, color = "#FF0000") {
+    console.log("HP!");
+    this._draw({
+      x: centerX - 11,
+      y: y - 6,
+      color: "#FFFFFF",
+      width: 22,
+      height: 3,
+    });
+    this._draw({
+      x: centerX - 10.5,
+      y: y - 5.5,
+      color,
+      width: (21 / maxHP) * currentHP,
+      height: 2,
+    });
   }
 
   drawScene(scene) {

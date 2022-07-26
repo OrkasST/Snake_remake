@@ -8,8 +8,18 @@ export class GameObject {
       x: 0,
       y: 0,
     },
-    status = "standing",
+    status = {
+      maxHP: 10,
+      currentHP: 10,
+      maxMP: 0,
+      currentMP: 0,
+      defence: 0,
+      attack: 0,
+      // physicalAttack: 0,
+      // magicAttack: 0,
+    },
     movement = {
+      status: "standing",
       disabledX: "none",
       disabledY: "none",
       direction: "none",
@@ -31,6 +41,7 @@ export class GameObject {
     texture = null,
     objectCreatingFunction = null,
     isDestructive = false,
+    isAlive = false,
   }) {
     this.name = name;
     this.type = type;
@@ -53,20 +64,26 @@ export class GameObject {
     */
     this.interactive = interactive;
     this.collisionBody = true;
+    this.isAlive = isAlive;
     this.isDisplayed = isDisplayed;
     this.isInOrderToDestroy = false;
     this._createObject = objectCreatingFunction;
     this.objectCreatingFunctionIsSet = false;
+    this._isUnderAttack = false;
   }
   imageLoaded() {}
   destroy() {
     this.isInOrderToDestroy = true;
   }
+  _recalculateHP(damage) {
+    this.status.currentHP -= damage - this.status.defence;
+    if (this.status.currentHP <= 0) this.destroy();
+  }
   setObjectCreatingFunction(callback, caller) {
     this._createObject = callback.bind(caller);
     this.objectCreatingFunctionIsSet = true;
   }
-  onCollision() {
-    if (this.isDestructive) this.destroy();
+  onCollision(damage) {
+    if (this.isDestructive) this._recalculateHP(damage);
   }
 }

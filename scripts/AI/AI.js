@@ -25,7 +25,7 @@ export class AI {
       this.isPathClosed = true;
       console.log("PathClosed");
     } else {
-      this.me.status = "moving";
+      this.me.movement.status = "moving";
       if (this.goTo(this.path[this.step])) {
         this.step++;
         console.log(this.step);
@@ -34,7 +34,7 @@ export class AI {
   }
 
   prepare(destination) {
-    this.me.status = "moving";
+    this.me.movement.status = "moving";
     // if (destination) this.chooseDirection(destination)
     // if (this.stepsCount <= 0) {
     //   this.chooseDirection();

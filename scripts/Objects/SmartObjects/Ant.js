@@ -9,6 +9,15 @@ export class Ant extends GameObject {
       position,
       movement: { speed: 3 },
       texture,
+      isAlive: true,
+      status: {
+        maxHP: 10,
+        currentHP: 10,
+        maxMP: 0,
+        currentMP: 0,
+        defence: 0,
+        attack: 0,
+      },
     });
     this.AI.setMe(this);
     this.AI.setPath(path);
@@ -46,7 +55,7 @@ export class Ant extends GameObject {
     }
   }
 
-  onCollision(object) {
-    if (object.type === "shot") this.destroy();
-  }
+  // onCollision(object, damage) {
+  //   if (object.type === "shot") this.destroy();
+  // }
 }
