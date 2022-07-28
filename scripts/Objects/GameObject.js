@@ -14,9 +14,9 @@ export class GameObject {
       maxMP: 0,
       currentMP: 0,
       defence: 0,
-      attack: 0,
-      // physicalAttack: 0,
-      // magicAttack: 0,
+      // attack: 0,
+      physicalAttack: 0,
+      magicAttack: 0,
     },
     movement = {
       status: "standing",
@@ -42,6 +42,7 @@ export class GameObject {
     objectCreatingFunction = null,
     isDestructive = false,
     isAlive = false,
+    collisionBody = true,
   }) {
     this.name = name;
     this.type = type;
@@ -63,7 +64,7 @@ export class GameObject {
         };
     */
     this.interactive = interactive;
-    this.collisionBody = true;
+    this.collisionBody = collisionBody;
     this.isAlive = isAlive;
     this.isDisplayed = isDisplayed;
     this.isInOrderToDestroy = false;
@@ -83,7 +84,7 @@ export class GameObject {
     this._createObject = callback.bind(caller);
     this.objectCreatingFunctionIsSet = true;
   }
-  onCollision(damage) {
-    if (this.isDestructive) this._recalculateHP(damage);
+  onCollision(damage = null) {
+    if (this.isDestructive && damage) this._recalculateHP(damage);
   }
 }

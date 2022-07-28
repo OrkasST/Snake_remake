@@ -110,6 +110,7 @@ export class Game {
         if (Array.isArray(el)) this.screen.drawArray(el);
         this.screen.drawObject(el);
       });
+      this.screen.drawUI(this.player.status);
     } else if (this.currentScene.type === "video") {
       data.forEach((el) => {
         if (!el.isAppended) el.append();
@@ -179,6 +180,7 @@ export class Game {
                     : 0),
               },
               direction: this.player.movement.direction,
+              attackMultiplier: this.player.status.magicAttack,
             })
           );
       }

@@ -3,6 +3,7 @@ import { GameObject } from "../GameObject.js";
 export class Ant extends GameObject {
   constructor(position = { x: 0, y: 0 }, texture, path) {
     super({
+      name: "ant",
       AIType: "dummy",
       size: { width: 20, height: 40 },
       color: "#a7dc9b",
@@ -10,13 +11,16 @@ export class Ant extends GameObject {
       movement: { speed: 3 },
       texture,
       isAlive: true,
+      isDestructive: true,
       status: {
         maxHP: 10,
         currentHP: 10,
         maxMP: 0,
         currentMP: 0,
         defence: 0,
-        attack: 0,
+        // attack: 0,
+        magicAttack: 0,
+        physicalAttack: 1,
       },
     });
     this.AI.setMe(this);

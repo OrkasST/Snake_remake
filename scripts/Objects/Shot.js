@@ -10,10 +10,11 @@ export class Shot extends GameObject {
       maxMP: 0,
       currentMP: 0,
       defence: 0,
-      attack: 2,
-      // physicalAttack: 0,
-      // magicAttack: 0,
+      // attack: 2,
+      physicalAttack: 0,
+      magicAttack: 2,
     },
+    attackMultiplier = 0,
   }) {
     super({
       name: "shot",
@@ -23,7 +24,10 @@ export class Shot extends GameObject {
         height: 20,
       },
       position,
-      status,
+      status: {
+        ...status,
+        magicAttack: status.magicAttack + attackMultiplier,
+      },
       movement: {
         status: "moving",
         disabledX: "none",

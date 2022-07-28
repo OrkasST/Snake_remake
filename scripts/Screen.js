@@ -74,7 +74,7 @@ export class Screen {
       height: obj.size.height,
     });
     if (obj.isAlive || obj._isUnderAttack)
-      this.drawHP(
+      this.drawObjectHP(
         obj.position.x + this.camera.position.x + obj.size.width / 2,
         obj.position.y + this.camera.position.y,
         obj.status.maxHP,
@@ -86,8 +86,7 @@ export class Screen {
     for (let i = array.length - 1; i >= 0; i--) this.drawObject(array[i]);
   }
 
-  drawHP(centerX, y, maxHP, currentHP, color = "#FF0000") {
-    console.log("HP!");
+  drawObjectHP(centerX, y, maxHP, currentHP, color = "#FF0000") {
     this._draw({
       x: centerX - 11,
       y: y - 6,
@@ -102,6 +101,33 @@ export class Screen {
       width: (21 / maxHP) * currentHP,
       height: 2,
     });
+  }
+
+  drawUI(status) {
+    // draw HP bar
+    this._draw({
+      x: 50,
+      y: 30,
+      width: 162,
+      height: 22,
+      color: "#000000",
+    });
+    this._draw({
+      x: 51,
+      y: 31,
+      width: 160,
+      height: 20,
+      color: "#FFFFFF",
+    });
+    this._draw({
+      x: 51,
+      y: 31,
+      width: (160 / status.maxHP) * status.currentHP,
+      height: 20,
+      color: "#FF0000",
+    });
+
+    // draw MP bar
   }
 
   drawScene(scene) {

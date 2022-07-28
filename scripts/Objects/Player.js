@@ -14,9 +14,9 @@ export class Player extends GameObject {
       maxMP: 0,
       currentMP: 0,
       defence: 0,
-      attack: 1,
-      // physicalAttack: 1,
-      // magicAttack: 1,
+      // attack: 1,
+      physicalAttack: 1,
+      magicAttack: 3,
     },
     movement = {
       status: "standing",

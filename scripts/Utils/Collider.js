@@ -13,7 +13,8 @@ export class Collider {
 
   checkCollisions(bodies) {
     bodies.forEach((body) => {
-      let checked = 0;
+      // if (Array.isArray(body)) debugger;
+      //let checked = 0;
       if (!body.collisionBody) return;
       body.movement.disabledX = "none";
       body.movement.disabledY = "none";
@@ -27,24 +28,40 @@ export class Collider {
           if (object.type === "wall") this._checkCorner(body, object);
           if (object.type === "portal")
             this._teleport(body, object, this.staticObjects);
-        } else checked++;
+        } // else checked++;
       });
       bodies.forEach((collider) => {
         if (body === collider || !collider.collisionBody) {
-          checked++;
+          if (
+            Array.isArray(collider) &&
+            body !== collider &&
+            body.collisionBody &&
+            body.type !== "player"
+          )
+            collider.forEach((part) => {
+              if (this._isColliding(part, body)) {
+                this._checkCorner(part, body);
+                this._checkCorner(body, part);
+              }
+            });
+          //checked++;
           return;
         }
-        if (
-          body.position.x + body.size.width >= collider.position.x &&
-          body.position.x <= collider.position.x + collider.size.width &&
-          body.position.y + body.size.height >= collider.position.y &&
-          body.position.y <= collider.position.y + collider.size.height
-        ) {
+        if (this._isColliding(body, collider)) {
           this._checkCorner(body, collider);
           this._checkCorner(collider, body);
-        } else checked++;
+        } //else checked++;
       });
     });
+  }
+
+  _isColliding(body, collider) {
+    return (
+      body.position.x + body.size.width >= collider.position.x &&
+      body.position.x <= collider.position.x + collider.size.width &&
+      body.position.y + body.size.height >= collider.position.y &&
+      body.position.y <= collider.position.y + collider.size.height
+    );
   }
 
   _checkCorner(body, object) {
@@ -81,7 +98,11 @@ export class Collider {
       body.position.x -= 4;
       body.movement.status = "standing";
     }
-    body.onCollision(object.status.attack);
+    body.onCollision(
+      object.type === "shot"
+        ? object.status?.magicAttack
+        : object.status?.physicalAttack
+    );
   }
 
   _teleport(body, enterPortal, staticObjects) {

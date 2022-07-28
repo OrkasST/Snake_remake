@@ -12,6 +12,7 @@ export class Spawner extends GameObject {
       position,
       type: "spawner",
       texture: { name: "ant", img: null },
+      collisionBody: false,
     });
     this.interval = interval;
     this.previousSpawnTime = 0;
