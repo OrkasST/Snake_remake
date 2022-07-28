@@ -51,6 +51,7 @@ export class Screen {
       : this.ctx.fillRect(x, y, width, height);
     this.ctx.closePath();
   }
+
   drawText({
     font = "30px Arial",
     color = "#000000",
@@ -119,12 +120,24 @@ export class Screen {
       height: 20,
       color: "#FFFFFF",
     });
+
+    let hpGradient = this.ctx.createLinearGradient(0, 31, 0, 51);
+    hpGradient.addColorStop(0, "#fad7d7");
+    hpGradient.addColorStop(0.5, "#7c1515");
+    hpGradient.addColorStop(1, "#b57e7e");
     this._draw({
       x: 51,
       y: 31,
       width: (160 / status.maxHP) * status.currentHP,
       height: 20,
-      color: "#FF0000",
+      color: hpGradient,
+    });
+    this.drawText({
+      font: "15px Arial",
+      color: "#FFFFFF",
+      x: 56,
+      y: 47,
+      text: `${status.currentHP}/${status.maxHP}`,
     });
 
     // draw MP bar
@@ -142,12 +155,23 @@ export class Screen {
       height: 15,
       color: "#FFFFFF",
     });
+    let mpGradient = this.ctx.createLinearGradient(0, 61, 0, 76);
+    mpGradient.addColorStop(0, "#b4c2f9");
+    mpGradient.addColorStop(0.5, "#18157c");
+    mpGradient.addColorStop(1, "#4b66ff");
     this._draw({
       x: 51,
       y: 61,
       width: (160 / status.maxMP) * status.currentMP,
       height: 15,
-      color: "#0000FF",
+      color: mpGradient,
+    });
+    this.drawText({
+      font: "13px Arial",
+      color: "#FFFFFF",
+      x: 58,
+      y: 73,
+      text: `${status.currentMP}/${status.maxMP}`,
     });
   }
 
