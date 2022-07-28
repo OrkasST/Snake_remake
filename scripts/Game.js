@@ -67,7 +67,7 @@ export class Game {
       this.collider.checkCollisions(data);
 
       let actionList = this.controller.getActionList();
-      if (actionList.length > 0) this.doActions(actionList);
+      if (actionList.length > 0) this.doActions(actionList, time);
       data.forEach((el) => {
         if (
           !Array.isArray(el) &&
@@ -143,7 +143,7 @@ export class Game {
     }
   }
 
-  doActions(list) {
+  doActions(list, time) {
     list.forEach((el) => {
       el = el.split("_");
       switch (el[0]) {
@@ -155,34 +155,7 @@ export class Game {
           this.log = true;
           break;
         case "create":
-          this.createObject(
-            new Shot({
-              position: {
-                x:
-                  Math.floor(
-                    this.player.position.x + this.player.size.width / 2
-                  ) -
-                  10 -
-                  (this.player.movement.direction === "left"
-                    ? this.player.size.width
-                    : this.player.movement.direction === "right"
-                    ? -this.player.size.width - 10
-                    : 0),
-                y:
-                  Math.floor(
-                    this.player.position.y + this.player.size.height / 2
-                  ) -
-                  10 -
-                  (this.player.movement.direction === "up"
-                    ? this.player.size.height
-                    : this.player.movement.direction === "down"
-                    ? -this.player.size.height - 10
-                    : 0),
-              },
-              direction: this.player.movement.direction,
-              attackMultiplier: this.player.status.magicAttack,
-            })
-          );
+          this.player.createMagic(time);
       }
     });
 

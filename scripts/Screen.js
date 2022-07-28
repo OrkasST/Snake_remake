@@ -128,6 +128,27 @@ export class Screen {
     });
 
     // draw MP bar
+    this._draw({
+      x: 50,
+      y: 60,
+      width: 162,
+      height: 17,
+      color: "#000000",
+    });
+    this._draw({
+      x: 51,
+      y: 61,
+      width: 160,
+      height: 15,
+      color: "#FFFFFF",
+    });
+    this._draw({
+      x: 51,
+      y: 61,
+      width: (160 / status.maxMP) * status.currentMP,
+      height: 15,
+      color: "#0000FF",
+    });
   }
 
   drawScene(scene) {
