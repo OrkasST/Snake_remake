@@ -31,6 +31,7 @@ export class SnakeBody {
             x: head.position.x + head.movement.speed * i,
             y: head.position.y,
           },
+          status: head.status,
           size: {
             width: head.size.width,
             height: head.size.height,
@@ -64,11 +65,21 @@ export class SnakeBody {
             //     ? head.size.width
             //     : head.movement.speed + 1,
           },
+          isDamaging: false,
+          isDestructive: true,
         })
     );
   }
 
   update() {
+    // this.body.forEach((part) => {
+    //   if (part.isUnderAttack) {
+    //     console.log(part.status.currentHP);
+    //     // this.head.status.currentHP = part.status.currentHP;
+    //   }
+    // });
+    // this.head.status.currentHP
+    console.log("this.head.status.currentHP: ", this.head.status.currentHP);
     if (this.isInJerk) this._jerk();
     if (
       this.body[0].position.x === this.head.position.x &&
@@ -88,6 +99,7 @@ export class SnakeBody {
           width: this.head.size.width,
           height: this.head.size.height,
         },
+        status: this.head.status,
         texture: {
           img: this.texture.img,
           sx:
@@ -108,6 +120,8 @@ export class SnakeBody {
           direction: this.head.movement.direction,
           previousDirection: this.body[0].movement.direction,
         },
+        isDamaging: false,
+        isDestructive: true,
       })
     );
     this.body.pop();

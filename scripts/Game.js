@@ -149,7 +149,7 @@ export class Game {
       switch (el[0]) {
         case "move":
           if (this[el[1]].movement.disabled === "all") return;
-          console.log(this[el[1]].movement);
+          // console.log(this[el[1]].movement);
           this[el[1]].movement.status = "moving";
           this[el[1]].movement.direction = el[2];
           this.log = true;

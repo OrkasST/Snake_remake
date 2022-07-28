@@ -39,7 +39,9 @@ export class Collider {
             body.type !== "player"
           )
             collider.forEach((part) => {
+              if (part.isUnderAttack) part.isUnderAttack = false;
               if (this._isColliding(part, body)) {
+                // part.isUnderAttack = true;
                 this._checkCorner(part, body);
                 this._checkCorner(body, part);
               }
@@ -99,9 +101,11 @@ export class Collider {
       body.movement.status = "standing";
     }
     body.onCollision(
-      object.type === "shot"
-        ? object.status?.magicAttack
-        : object.status?.physicalAttack
+      object.isDamaging
+        ? object.type === "shot"
+          ? object.status?.magicAttack
+          : object.status?.physicalAttack
+        : null
     );
   }
 

@@ -37,6 +37,7 @@ export class GameObject {
       trigger: "click",
       action: null,
     },
+    isDamaging = true,
     isDisplayed = true,
     texture = null,
     objectCreatingFunction = null,
@@ -70,7 +71,8 @@ export class GameObject {
     this.isInOrderToDestroy = false;
     this._createObject = objectCreatingFunction;
     this.objectCreatingFunctionIsSet = false;
-    this._isUnderAttack = false;
+    this.isUnderAttack = false;
+    this.isDamaging = isDamaging;
   }
   imageLoaded() {}
   destroy() {
@@ -78,6 +80,8 @@ export class GameObject {
   }
   _recalculateHP(damage) {
     this.status.currentHP -= damage - this.status.defence;
+    if (this.type === "snake-body-part")
+      console.log("HP: " + this.status.currentHP);
     if (this.status.currentHP <= 0) this.destroy();
   }
   setObjectCreatingFunction(callback, caller) {
