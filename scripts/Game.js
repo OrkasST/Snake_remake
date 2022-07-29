@@ -64,6 +64,7 @@ export class Game {
       }
     }
     if (this.currentScene.type === "game") {
+      if (this.player.status.currentHP <= 0) this.player.death();
       this.collider.checkCollisions(data);
 
       let actionList = this.controller.getActionList();

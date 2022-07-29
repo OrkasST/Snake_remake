@@ -12,11 +12,13 @@ export class Game_Part_001 {
       isDisplayed: false,
       position: { x: 125, y: 125 },
     });
+    this.objects.player.setSpawnPoint(1432, 1198);
     this.objects.playerSnake = new SnakeBody({
       head: this.objects.player,
       bodyLength: 65,
       name: "playerSnake",
     });
+    this.objects.player.setBody(this.objects.playerSnake.body);
     this.objects.spawner = new Spawner({});
     this.textures = {
       "map-tiles": "../../images/tiles.png",

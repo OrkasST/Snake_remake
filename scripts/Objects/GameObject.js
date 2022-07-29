@@ -17,6 +17,9 @@ export class GameObject {
       // attack: 0,
       physicalAttack: 0,
       magicAttack: 0,
+      points: 0,
+      pointsToGrow: 12,
+      upgrades: 0,
     },
     movement = {
       status: "standing",
@@ -78,17 +81,51 @@ export class GameObject {
   destroy() {
     this.isInOrderToDestroy = true;
   }
-  _recalculateHP(damage) {
+  _recalculateHP(damage, object) {
     this.status.currentHP -= damage - this.status.defence;
-    if (this.type === "snake-body-part")
-      console.log("HP: " + this.status.currentHP);
-    if (this.status.currentHP <= 0) this.destroy();
+    if (this.status.currentHP <= 0) {
+      let pointsToGive = this.status.maxHP;
+      object.status.currentHP = object.raiseHP(Math.floor(pointsToGive / 2));
+      object.raisePoints(Math.floor(pointsToGive / 1.2));
+      object.status.currentMP = object.raiseMP(Math.floor(pointsToGive / 3));
+      this.destroy();
+    }
   }
   setObjectCreatingFunction(callback, caller) {
     this._createObject = callback.bind(caller);
     this.objectCreatingFunctionIsSet = true;
   }
-  onCollision(damage = null) {
-    if (this.isDestructive && damage) this._recalculateHP(damage);
+  onCollision(object = null) {
+    if (!object) return;
+    let damage = object.isDamaging
+      ? object.type === "shot"
+        ? object.status?.magicAttack
+        : object.status?.physicalAttack
+      : null;
+    if (this.isDestructive && damage) this._recalculateHP(damage, object);
+  }
+
+  raisePoints(points) {
+    if (this.status.points + points >= this.status.pointsToGrow) {
+      let difference = this.status.pointsToGrow - this.status.points;
+      this.status.pointsToGrow =
+        this.status.pointsToGrow < 100
+          ? Math.floor(this.status.pointsToGrow * 1.5)
+          : Math.floor(this.status.pointsToGrow * 1.2);
+      this.status.upgrades++;
+      return this.raisePoints(points - difference);
+    }
+    this.status.points += points;
+  }
+
+  raiseMP(MP) {
+    return this.status.currentMP + MP >= this.status.maxMP
+      ? this.status.maxMP
+      : this.status.currentMP + MP;
+  }
+  raiseHP(HP) {
+    return this.status.currentHP + HP >= this.status.maxHP
+      ? this.status.maxHP
+      : this.status.currentHP + HP;
   }
 }

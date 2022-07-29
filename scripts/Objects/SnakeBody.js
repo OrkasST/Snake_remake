@@ -72,13 +72,7 @@ export class SnakeBody {
   }
 
   update() {
-    // this.body.forEach((part) => {
-    //   if (part.isUnderAttack) {
-    //     console.log(part.status.currentHP);
-    //     // this.head.status.currentHP = part.status.currentHP;
-    //   }
-    // });
-    // this.head.status.currentHP
+    // if (this.body.length < this.bodyLength) this._fillBody();
     console.log("this.head.status.currentHP: ", this.head.status.currentHP);
     if (this.isInJerk) this._jerk();
     if (

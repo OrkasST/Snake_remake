@@ -173,6 +173,49 @@ export class Screen {
       y: 73,
       text: `${status.currentMP}/${status.maxMP}`,
     });
+
+    // draw groth status bar
+    this.drawText({
+      font: "20px Arial",
+      color: "#000000",
+      x: this.width - 280,
+      y: 48,
+      text: status.upgrades,
+    });
+
+    this._draw({
+      x: this.width - 250,
+      y: 30,
+      width: 182,
+      height: 22,
+      color: "#000000",
+    });
+    this._draw({
+      x: this.width - 249,
+      y: 31,
+      width: 180,
+      height: 20,
+      color: "#FFFFFF",
+    });
+
+    let grothGradient = this.ctx.createLinearGradient(0, 31, 0, 51);
+    grothGradient.addColorStop(0, "#c4f4b9");
+    grothGradient.addColorStop(0.5, "#299914");
+    grothGradient.addColorStop(1, "#209d03");
+    this._draw({
+      x: this.width - 249,
+      y: 31,
+      width: (180 / status.pointsToGrow) * status.points,
+      height: 20,
+      color: grothGradient,
+    });
+    this.drawText({
+      font: "15px Arial",
+      color: "#FFFFFF",
+      x: this.width - 244,
+      y: 47,
+      text: `${status.points}/${status.pointsToGrow}`,
+    });
   }
 
   drawScene(scene) {

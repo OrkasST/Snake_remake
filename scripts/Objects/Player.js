@@ -18,6 +18,9 @@ export class Player extends GameObject {
       // attack: 1,
       physicalAttack: 1,
       magicAttack: 3,
+      points: 0,
+      pointsToGrow: 2,
+      upgrades: 0,
     },
     movement = {
       status: "standing",
@@ -54,9 +57,23 @@ export class Player extends GameObject {
     this.lastMagicCreatedTime = 0;
   }
 
+  setBody(body) {
+    this.body = body;
+  }
+
   setPosition(x, y) {
     this.position.x = x;
     this.position.y = y;
+  }
+
+  setSpawnPoint(x, y) {
+    this.spawnPoint = { x, y };
+  }
+
+  death() {
+    this.setPosition(this.spawnPoint.x, this.spawnPoint.y);
+    this.body.forEach((el) => (el.position = this.spawnPoint));
+    this.status.currentHP = this.status.maxHP + 0;
   }
 
   createMagic(time) {

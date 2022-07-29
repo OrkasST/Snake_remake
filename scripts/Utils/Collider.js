@@ -100,13 +100,7 @@ export class Collider {
       body.position.x -= 4;
       body.movement.status = "standing";
     }
-    body.onCollision(
-      object.isDamaging
-        ? object.type === "shot"
-          ? object.status?.magicAttack
-          : object.status?.physicalAttack
-        : null
-    );
+    body.onCollision(object);
   }
 
   _teleport(body, enterPortal, staticObjects) {
