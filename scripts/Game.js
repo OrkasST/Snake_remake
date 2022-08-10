@@ -95,6 +95,7 @@ export class Game {
             break;
         }
       });
+      // debugger;
       for (let j = 0; j < data.length; j++) {
         if (!Array.isArray(data[j]) && data[j].isInOrderToDestroy)
           data.splice(j, 1);
@@ -159,7 +160,6 @@ export class Game {
           this.player.createMagic(time);
       }
     });
-
     this.controller.clearActionList();
   }
 

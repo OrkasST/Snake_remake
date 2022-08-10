@@ -31,3 +31,4 @@ export class Game_Part_001 {
 }
 
 //{ x: 1432, y: 1198 }
+//{ x: 125, y: 125 }

@@ -21,6 +21,7 @@ export class Player extends GameObject {
       points: 0,
       pointsToGrow: 2,
       upgrades: 0,
+      level: 1,
     },
     movement = {
       status: "standing",
@@ -73,7 +74,17 @@ export class Player extends GameObject {
   death() {
     this.setPosition(this.spawnPoint.x, this.spawnPoint.y);
     this.body.forEach((el) => (el.position = this.spawnPoint));
+    this.status.points = 0;
+    this.status.upgrades = 0;
+    this.status.pointsToGrow = this._calculatePoints(this.status.level);
     this.status.currentHP = this.status.maxHP + 0;
+  }
+  _calculatePoints(level) {
+    let points = 2;
+    for (let i = 1; i < level; i++) {
+      points = Math.floor(points * (i > 11 ? 1.2 : 1.5));
+    }
+    return points;
   }
 
   createMagic(time) {

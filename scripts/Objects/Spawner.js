@@ -33,8 +33,8 @@ export class Spawner extends GameObject {
       this._createObject(
         new Ant(
           {
-            x: this.position.x + this.spawnRadius * Math.random(),
-            y: this.position.y + this.spawnRadius * Math.random(),
+            x: 46,
+            y: 29.8,
           },
           { name: this.texture.name, img: this.texture.img, sx: 0, sy: 0 },
           this.path
@@ -45,3 +45,6 @@ export class Spawner extends GameObject {
     }
   }
 }
+
+// x: this.position.x + this.spawnRadius * Math.random(),
+// y: this.position.y + this.spawnRadius * Math.random(),

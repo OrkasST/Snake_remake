@@ -52,6 +52,14 @@ export class Screen {
     this.ctx.closePath();
   }
 
+  _strokeRct({ x = 0, y = 0, color = "#000000", width = 10, height = 10 }) {
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = color;
+    this.ctx.lineWidth = 0.2;
+    this.ctx.strokeRect(x, y, width, height);
+    this.ctx.closePath();
+  }
+
   drawText({
     font = "30px Arial",
     color = "#000000",
@@ -211,8 +219,8 @@ export class Screen {
     });
     this.drawText({
       font: "15px Arial",
-      color: "#FFFFFF",
-      x: this.width - 244,
+      color: "#000000",
+      x: this.width - 240,
       y: 47,
       text: `${status.points}/${status.pointsToGrow}`,
     });

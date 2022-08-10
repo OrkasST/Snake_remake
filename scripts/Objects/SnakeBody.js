@@ -16,10 +16,8 @@ export class SnakeBody {
     this.xCodes = {
       up: 1,
       down: 2,
-    };
-    this.yCodes = {
-      left: 1,
-      right: 2,
+      left: 2,
+      right: 1,
     };
     this.isInJerk = false;
     this.body = new Array(bodyLength).fill(null).map(
@@ -99,9 +97,7 @@ export class SnakeBody {
           sx:
             (this.head.movement.direction === this.body[0].movement.direction
               ? 0
-              : this.head.movement.direction === "left"
-              ? this.xCodes[this.body[0].movement.direction]
-              : this.yCodes[this.body[0].movement.direction]) *
+              : this.xCodes[this.body[0].movement.direction]) *
               (this.head.size.width + 4) +
             2,
           sy:
@@ -121,11 +117,15 @@ export class SnakeBody {
     this.body.pop();
     this.body.forEach((el, i) => {
       el.isDisplayed =
-        i === 0
+        i === 0 ||
+        (i < this.body.length - 1 &&
+          el.movement.direction !== this.body[i + 1].movement.direction)
           ? true
+          : i > 1 && i < this.body.length - 2 && this.body[i - 1].isDisplayed
+          ? false
           : i === this.body.length - 1
           ? true
-          : i % 8 === 0 && this.body.length - 1 - i >= 16
+          : i % 16 === 0 && this.body.length - 1 - i >= 16
           ? true
           : false;
       el.texture.sy =

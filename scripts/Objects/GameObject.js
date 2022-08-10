@@ -20,6 +20,7 @@ export class GameObject {
       points: 0,
       pointsToGrow: 12,
       upgrades: 0,
+      level: 1,
     },
     movement = {
       status: "standing",
@@ -103,6 +104,7 @@ export class GameObject {
         : object.status?.physicalAttack
       : null;
     if (this.isDestructive && damage) this._recalculateHP(damage, object);
+    if (this.AIType) this.AI.handleCollision();
   }
 
   raisePoints(points) {
