@@ -53,13 +53,15 @@ export class Player extends GameObject {
       color,
       interactive,
       isDisplayed,
+      isAbleToGrow: true,
     });
     this.magicCooldown = 500;
     this.lastMagicCreatedTime = 0;
   }
 
-  setBody(body) {
-    this.body = body;
+  setBody(bodyObject) {
+    this.bodyObject = bodyObject;
+    this.body = bodyObject.body;
   }
 
   setPosition(x, y) {
@@ -79,12 +81,17 @@ export class Player extends GameObject {
     this.status.pointsToGrow = this._calculatePoints(this.status.level);
     this.status.currentHP = this.status.maxHP + 0;
   }
+
   _calculatePoints(level) {
     let points = 2;
     for (let i = 1; i < level; i++) {
       points = Math.floor(points * (i > 11 ? 1.2 : 1.5));
     }
     return points;
+  }
+
+  grow() {
+    this.bodyObject.grow(20);
   }
 
   createMagic(time) {

@@ -14,39 +14,37 @@ export class AI {
 
   setMe(me) {
     this.me = me;
-    console.log("Me set");
+    // console.log("Me set");
   }
 
   setPath(path) {
     this.path = path;
-    console.log("Path set");
+    // console.log("Path set");
   }
 
   followPath() {
     if (this.isPathClosed) return;
     if (this.step >= this.path.length && !this.isPathClosed) {
       this.isPathClosed = true;
-      console.log("~~~~PathClosed~~~~");
+      // console.log("~~~~PathClosed~~~~");
       return;
     }
     this.me.movement.status = "moving";
     if (!this.localPathIsCreated) this._cteatePathTo(this.path[this.step]);
     if (this._isPointReached(this.path[this.step])) {
       this.step++;
-      console.log(this.step);
+      // console.log("step: ", this.step);
       return;
     }
     if (!this._localPath[this._localStep]) {
-      console.group("Path error");
-      console.log("point: ", this.path[this.step]);
-      console.log("me: ", this.me.position);
-      console.log("size: ", this.me.size);
-      console.groupEnd();
+      // console.group("Path error");
+      // console.log("point: ", this.path[this.step]);
+      // console.log("me: ", this.me.position);
+      // console.log("size: ", this.me.size);
+      // console.groupEnd();
       debugger;
     }
-    console.log(this._localStep);
     this.me.movement.direction = this._localPath[this._localStep];
-    console.log(this._localPath[this._localStep]);
     this._localStep++;
   }
 
@@ -96,7 +94,7 @@ export class AI {
       point.y >= this.me.position.y &&
       point.y <= this.me.position.y + this.me.size.height
     ) {
-      console.log(`****Point ${i} arrived`);
+      // console.log(`****Point ${i} arrived`);
       this.localPathIsCreated = false;
       return true;
     } else return false;
@@ -104,23 +102,26 @@ export class AI {
 
   _cteatePathTo(point = { x: 0, y: 0 }) {
     this._localStep = 0;
-    let distX = point.x - this.me.position.x - this.me.size.width / 2,
-      distY = point.y - this.me.position.y - this.me.size.height / 2;
+    let distX = point.x - this.me.position.x, // - this.me.size.width / 2,
+      distY = point.y - this.me.position.y; // - this.me.size.height / 2;
 
     let xAxis = distX > 0 ? "right" : "left",
       yAxis = distY > 0 ? "down" : "up";
 
-    let stepsX = Math.ceil(Math.abs(distX / this.me.movement.speed)),
-      stepsY = Math.ceil(Math.abs(distY / this.me.movement.speed));
+    let stepsX = Math.abs(distX / this.me.movement.speed),
+      stepsY = Math.abs(distY / this.me.movement.speed);
 
-    console.group("Path params");
-    console.log("speed: ", this.me.movement.speed);
-    console.log("me: ", this.me.position);
-    console.log("distX: ", distX);
-    console.log("stepsX: ", stepsX);
-    console.log("stepsY: ", stepsY);
-    console.log("distY: ", distY);
-    console.groupEnd();
+    stepsX = distX > 0 ? Math.floor(stepsX) : Math.ceil(stepsX);
+    stepsY = distY > 0 ? Math.floor(stepsY) : Math.ceil(stepsY);
+
+    // console.group("Path params");
+    // console.log("speed: ", this.me.movement.speed);
+    // console.log("me: ", this.me.position);
+    // console.log("distX: ", distX);
+    // console.log("distY: ", distY);
+    // console.log("stepsX: ", stepsX);
+    // console.log("stepsY: ", stepsY);
+    // console.groupEnd();
 
     this._localPath =
       stepsX > stepsY
@@ -128,19 +129,20 @@ export class AI {
         : this._fillArray(stepsY, stepsX, yAxis, xAxis);
 
     this.localPathIsCreated = true;
-    console.log(this._localPath);
+    // console.log(this._localPath);
   }
 
   _fillArray(a, b, firstVal, secVal) {
-    // console.log("a: ", a);
     let diff = a - b;
     let arr = [];
     let isFirst = true;
     let count = 1;
+    let step = b;
     for (let i = 1; i <= b * 2; i++) {
-      if (count > (b > 10 ? 10 : b)) {
+      if (count > (step > 20 ? 20 : step)) {
         isFirst = !isFirst;
         count = 1;
+        if (isFirst) step = step - (step > 20 ? 20 : 0);
       }
       arr[i - 1] = isFirst ? firstVal : secVal;
       count++;
@@ -149,7 +151,6 @@ export class AI {
     for (let i = 0; i < diff; i++) {
       arr.push(firstVal);
     }
-    // console.log(arr);
     return arr;
   }
 

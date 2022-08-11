@@ -1,22 +1,13 @@
-import { GameObject } from "./GameObject.js";
-import { Ant } from "./SmartObjects/Ant.js";
+import { Ant } from "../SmartObjects/Ant.js";
+import { Spawner } from "./Spawner.js";
 
-export class Spawner extends GameObject {
+export class AntSpawner extends Spawner {
   constructor({
     interval = 50000,
     position = { x: 0, y: 0 },
     spawnRadius = 200,
   }) {
-    super({
-      isDisplayed: false,
-      position,
-      type: "spawner",
-      texture: { name: "ant", img: null },
-      collisionBody: false,
-    });
-    this.interval = interval;
-    this.previousSpawnTime = 0;
-    this.spawnRadius = spawnRadius;
+    super({ interval, position, spawnRadius, image: "ant" });
     this.path = [
       { x: 0, y: 0 },
       { x: 500, y: 30 },
@@ -33,8 +24,8 @@ export class Spawner extends GameObject {
       this._createObject(
         new Ant(
           {
-            x: 46,
-            y: 29.8,
+            x: this.position.x + this.spawnRadius * Math.random(),
+            y: this.position.y + this.spawnRadius * Math.random(),
           },
           { name: this.texture.name, img: this.texture.img, sx: 0, sy: 0 },
           this.path
@@ -45,6 +36,3 @@ export class Spawner extends GameObject {
     }
   }
 }
-
-// x: this.position.x + this.spawnRadius * Math.random(),
-// y: this.position.y + this.spawnRadius * Math.random(),

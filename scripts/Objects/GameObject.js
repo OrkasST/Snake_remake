@@ -48,6 +48,7 @@ export class GameObject {
     isDestructive = false,
     isAlive = false,
     collisionBody = true,
+    isAbleToGrow = false,
   }) {
     this.name = name;
     this.type = type;
@@ -77,6 +78,7 @@ export class GameObject {
     this.objectCreatingFunctionIsSet = false;
     this.isUnderAttack = false;
     this.isDamaging = isDamaging;
+    this.isAbleToGrow = isAbleToGrow;
   }
   imageLoaded() {}
   destroy() {
@@ -86,9 +88,13 @@ export class GameObject {
     this.status.currentHP -= damage - this.status.defence;
     if (this.status.currentHP <= 0) {
       let pointsToGive = this.status.maxHP;
-      object.status.currentHP = object.raiseHP(Math.floor(pointsToGive / 2));
-      object.raisePoints(Math.floor(pointsToGive / 1.2));
-      object.status.currentMP = object.raiseMP(Math.floor(pointsToGive / 3));
+      object.status.currentHP = object.raiseHP(
+        Math.floor(pointsToGive / 2) || 1
+      );
+      object.raisePoints(Math.floor(pointsToGive / 1.2) || 1);
+      object.status.currentMP = object.raiseMP(
+        Math.floor(pointsToGive / 3) || 1
+      );
       this.destroy();
     }
   }
@@ -115,6 +121,8 @@ export class GameObject {
           ? Math.floor(this.status.pointsToGrow * 1.5)
           : Math.floor(this.status.pointsToGrow * 1.2);
       this.status.upgrades++;
+      this.status.points = 0;
+      if (this.isAbleToGrow) this.grow();
       return this.raisePoints(points - difference);
     }
     this.status.points += points;

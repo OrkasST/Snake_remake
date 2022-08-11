@@ -13,12 +13,6 @@ export class SnakeBody {
       up: 2,
       down: 3,
     };
-    this.xCodes = {
-      up: 1,
-      down: 2,
-      left: 2,
-      right: 1,
-    };
     this.isInJerk = false;
     this.body = new Array(bodyLength).fill(null).map(
       (el, i, body) =>
@@ -39,23 +33,22 @@ export class SnakeBody {
             previousDirection: head.movement.direction,
           },
           color: i === 0 ? "#FF0000" : "#000000",
-          isDisplayed:
-            i === 0
-              ? true
-              : i === body.length - 1
-              ? true
-              : i % 16 === 0 && body.length - 1 - i >= 16
-              ? true
-              : false,
+          // isDisplayed:
+          //   i === 0
+          //     ? true
+          //     : i === body.length - 1
+          //     ? true
+          //     : i % 16 === 0 && body.length - 1 - i >= 16
+          //     ? true
+          //     : false,
           texture: {
             name: "image",
             img: null,
-            sx: 0,
+            sx: i === 0 ? 0 : i === body.length - 1 ? 72 : 36,
             sy:
               this.directionCodes[head.movement.direction] *
                 (head.size.height + 4) +
-              2 +
-              (i === 0 ? 0 : i === body.length - 1 ? 288 : 144),
+              2,
             // width:
             //   i === 0
             //     ? head.size.width
@@ -71,7 +64,7 @@ export class SnakeBody {
 
   update() {
     // if (this.body.length < this.bodyLength) this._fillBody();
-    console.log("this.head.status.currentHP: ", this.head.status.currentHP);
+    // console.log("this.head.status.currentHP: ", this.head.status.currentHP);
     if (this.isInJerk) this._jerk();
     if (
       this.body[0].position.x === this.head.position.x &&
@@ -94,12 +87,7 @@ export class SnakeBody {
         status: this.head.status,
         texture: {
           img: this.texture.img,
-          sx:
-            (this.head.movement.direction === this.body[0].movement.direction
-              ? 0
-              : this.xCodes[this.body[0].movement.direction]) *
-              (this.head.size.width + 4) +
-            2,
+          sx: 0,
           sy:
             this.directionCodes[this.head.movement.direction] *
               (this.head.size.height + 4) +
@@ -116,23 +104,19 @@ export class SnakeBody {
     );
     this.body.pop();
     this.body.forEach((el, i) => {
-      el.isDisplayed =
-        i === 0 ||
-        (i < this.body.length - 1 &&
-          el.movement.direction !== this.body[i + 1].movement.direction)
-          ? true
-          : i > 1 && i < this.body.length - 2 && this.body[i - 1].isDisplayed
-          ? false
-          : i === this.body.length - 1
-          ? true
-          : i % 16 === 0 && this.body.length - 1 - i >= 16
-          ? true
-          : false;
-      el.texture.sy =
-        this.directionCodes[el.movement.direction] *
-          (this.head.size.height + 4) +
-        2 +
-        (i === 0 ? 0 : i === this.body.length - 1 ? 288 : 144);
+      // el.isDisplayed =
+      //   i === 0 ||
+      //   (i < this.body.length - 1 &&
+      //     el.movement.direction !== this.body[i + 1].movement.direction)
+      //     ? true
+      //     : i > 1 && i < this.body.length - 2 && this.body[i - 1].isDisplayed
+      //     ? false
+      //     : i === this.body.length - 1
+      //     ? true
+      //     : i % 16 === 0 && this.body.length - 1 - i >= 16
+      //     ? true
+      //     : false;
+      el.texture.sx = i === 0 ? 0 : i === this.body.length - 1 ? 72 : 36;
     });
 
     // console.log(this.body[0].movement);
@@ -140,6 +124,11 @@ export class SnakeBody {
 
   imageLoaded() {
     this.body.forEach((el) => (el.texture.img = this.texture.img));
+  }
+
+  grow(ammount) {
+    for (let i = 0; i < ammount; i++)
+      this.body.push(new GameObject({ isDisplayed: false, texture: {} }));
   }
 
   _jerk() {}
