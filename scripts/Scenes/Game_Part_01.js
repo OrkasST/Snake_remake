@@ -23,14 +23,16 @@ export class Game_Part_001 {
     this.objects.antSpawner = new AntSpawner({});
     this.objects.appleSpawner = new AppleSpawner({
       interval: 2000,
-      position: { x: 1932, y: 1698 },
+      position: { x: 1532, y: 1298 },
       spawnRadius: 800,
     });
+    this.objects.magic = this.objects.player.classicMagicShotTexture;
     this.textures = {
       "map-tiles": "../../images/tiles.png",
       snake: "../../images/snake_10.png",
       ant: "../../images/ant.png",
       apple: "../../images/apple.png",
+      magic: "../../images/Magic_ball.png",
     };
   }
 

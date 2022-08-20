@@ -48,6 +48,7 @@ export class GameObject {
     isDestructive = false,
     isAlive = false,
     collisionBody = true,
+    hitBox = null, // {x1,x2,y1,y2}
     isAbleToGrow = false,
   }) {
     this.name = name;
@@ -71,6 +72,13 @@ export class GameObject {
     */
     this.interactive = interactive;
     this.collisionBody = collisionBody;
+    if (this.collisionBody)
+      this.hitBox = {
+        x1: this.position.x + (hitBox?.x || 0),
+        x2: this.position.x + (hitBox?.x + hitBox?.width || this.size.width),
+        y1: this.position.y + (hitBox?.y || 0),
+        y2: this.position.y + (hitBox?.y + hitBox?.height || this.size.height),
+      };
     this.isAlive = isAlive;
     this.isDisplayed = isDisplayed;
     this.isInOrderToDestroy = false;

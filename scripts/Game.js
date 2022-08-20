@@ -7,6 +7,7 @@ import { Scene } from "./Scenes/Scene.js";
 import { Video_001 } from "./Scenes/Video_001.js";
 import { Screen } from "./Screen.js";
 import { Collider } from "./Utils/Collider.js";
+import { Menu } from "./Utils/Menu.js";
 
 export class Game {
   constructor({ screen = null, data = [] }) {
@@ -18,7 +19,9 @@ export class Game {
       { code: "KeyS", action: "move_player_down" },
       { code: "KeyA", action: "move_player_left" },
       { code: "KeyD", action: "move_player_right" },
-      { code: "KeyQ", action: "create_object_moving" },
+      { code: "KeyQ", action: "create_magic_ball" },
+      { code: "KeyE", action: "create_fast_magic_ball" },
+      { code: "KeyI", action: "upgrade_menu" },
     ]);
     this.dirnCodes = {
       right: 0,
@@ -34,6 +37,7 @@ export class Game {
       Video_001: new Scene(new Video_001()),
       Part_001: new Scene(new Game_Part_001()),
     };
+    this.menu = new Menu();
   }
 
   init() {
@@ -157,7 +161,13 @@ export class Game {
           this.log = true;
           break;
         case "create":
-          this.player.createMagic(time);
+          this.player.createMagic(time, el.splice(1).join("_"));
+          break;
+        case "upgrade":
+          this.menu.toggleMenu();
+          break;
+        default:
+          break;
       }
     });
     this.controller.clearActionList();
@@ -198,6 +208,8 @@ export class Game {
               break;
             case "video-player":
               this.data.push(objects[name]);
+              break;
+            case "empty":
               break;
             default:
               this.data = [this.data[0], objects[name], ...this.data.splice(1)];

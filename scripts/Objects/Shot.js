@@ -3,7 +3,12 @@ import { GameObject } from "./GameObject.js";
 export class Shot extends GameObject {
   constructor({
     position = { x, y },
+    size = {
+      width: 20,
+      height: 20,
+    },
     direction = "none",
+    speed = 4,
     status = {
       maxHP: 10,
       currentHP: 10,
@@ -15,14 +20,12 @@ export class Shot extends GameObject {
       magicAttack: 2,
     },
     attackMultiplier = 0,
+    texture = null,
   }) {
     super({
       name: "shot",
       type: "shot",
-      size: {
-        width: 20,
-        height: 20,
-      },
+      size,
       position,
       status: {
         ...status,
@@ -34,9 +37,10 @@ export class Shot extends GameObject {
         disabledY: "none",
         direction,
         previousDirection: "none",
-        speed: 4,
+        speed,
       },
       color: "#00FF00",
+      texture,
       isDestructive: true,
     });
   }

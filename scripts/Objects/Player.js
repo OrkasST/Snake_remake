@@ -1,4 +1,7 @@
+import { Empty } from "./Empty.js";
 import { GameObject } from "./GameObject.js";
+import { FastMagicBall } from "./Magic/FastMagicBall.js";
+import { MagicBall } from "./Magic/MagicBall.js";
 import { Shot } from "./Shot.js";
 
 export class Player extends GameObject {
@@ -57,6 +60,23 @@ export class Player extends GameObject {
     });
     this.magicCooldown = 500;
     this.lastMagicCreatedTime = 0;
+    this.classicMagicShotTexture = new Empty([
+      [
+        "texture",
+        {
+          name: "magic",
+          img: null,
+          sx: 0,
+          sy: 0,
+        },
+      ],
+      [
+        "imageLoaded",
+        () => {
+          console.log(this.classicMagicShotTexture);
+        },
+      ],
+    ]);
   }
 
   setBody(bodyObject) {
@@ -75,11 +95,13 @@ export class Player extends GameObject {
 
   death() {
     this.setPosition(this.spawnPoint.x, this.spawnPoint.y);
+    this.body.splice(this.bodyObject.bodyLength);
     this.body.forEach((el) => (el.position = this.spawnPoint));
     this.status.points = 0;
     this.status.upgrades = 0;
     this.status.pointsToGrow = this._calculatePoints(this.status.level);
     this.status.currentHP = this.status.maxHP + 0;
+    console.log(this.body.length);
   }
 
   _calculatePoints(level) {
@@ -94,7 +116,8 @@ export class Player extends GameObject {
     this.bodyObject.grow(20);
   }
 
-  createMagic(time) {
+  createMagic(time, magic) {
+    console.log(magic);
     if (
       this.status.currentMP >= 1 &&
       (time - this.lastMagicCreatedTime > this.magicCooldown ||
@@ -102,30 +125,38 @@ export class Player extends GameObject {
     ) {
       this.status.currentMP -= 1;
       this.lastMagicCreatedTime = time;
-      this._createObject(
-        new Shot({
-          position: {
-            x:
-              Math.floor(this.position.x + this.size.width / 2) -
-              10 -
-              (this.movement.direction === "left"
-                ? this.size.width
-                : this.movement.direction === "right"
-                ? -this.size.width - 10
-                : 0),
-            y:
-              Math.floor(this.position.y + this.size.height / 2) -
-              10 -
-              (this.movement.direction === "up"
-                ? this.size.height
-                : this.movement.direction === "down"
-                ? -this.size.height - 10
-                : 0),
-          },
-          direction: this.movement.direction,
-          attackMultiplier: this.status.magicAttack,
-        })
-      );
+      let data = {
+        position: {
+          x:
+            Math.floor(this.position.x + this.size.width / 2) -
+            32 -
+            (this.movement.direction === "left"
+              ? 64
+              : this.movement.direction === "right"
+              ? -64
+              : 0),
+          y:
+            Math.floor(this.position.y + this.size.height / 2) -
+            32 -
+            (this.movement.direction === "up"
+              ? 64
+              : this.movement.direction === "down"
+              ? -64
+              : 0),
+        },
+        size: { width: 64, height: 64 },
+        texture: this.classicMagicShotTexture.texture,
+        direction: this.movement.direction,
+        attackMultiplier: this.status.magicAttack,
+      };
+      switch (magic) {
+        case "magic_ball":
+          this._createObject(new MagicBall(data));
+          break;
+        case "fast_magic_ball":
+          this._createObject(new FastMagicBall(data));
+          break;
+      }
     }
   }
 }
