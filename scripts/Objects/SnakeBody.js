@@ -13,7 +13,27 @@ export class SnakeBody {
       up: 2,
       down: 3,
     };
+    //for fast monving
     this.isInJerk = false;
+    this.isRunning = false;
+    this.axis = {
+      right: "y",
+      left: "y",
+      up: "x",
+      down: "x",
+    };
+    this.path = [
+      0.9974949866040544, 0.963558185417193, 0.8912073600614354,
+      0.7833269096274835, 0.6442176872376912, 0.47942553860420317,
+      0.29552020666133977, 0.09983341664682835, -0.09983341664682796,
+      -0.2955202066613394, -0.47942553860420284, -0.6442176872376909,
+      -0.7833269096274833, -0.8912073600614353, -0.963558185417193,
+      -0.99749498660405444,
+    ];
+    this.count = 0;
+    this.forward = true;
+    this.isRenewing = false;
+
     this.body = new Array(bodyLength).fill(null).map(
       (el, i, body) =>
         new GameObject({
@@ -67,11 +87,20 @@ export class SnakeBody {
     // console.log("this.head.status.currentHP: ", this.head.status.currentHP);
     if (this.isInJerk) this._jerk();
     if (
-      this.body[0].position.x === this.head.position.x &&
-      this.body[0].position.y === this.head.position.y
+      (this.body[0].position.x === this.head.position.x &&
+        this.body[0].position.y === this.head.position.y) ||
+      this.isRenewing
     )
       return;
     this.body[0].color = "#000000";
+    this.renew();
+    this._brushTextures();
+    if (this.isRunning) this._run(this.axis[this.head.movement.direction]);
+
+    // console.log(this.body[0].movement);
+  }
+
+  renew() {
     this.body.unshift(
       new GameObject({
         name: this.name,
@@ -103,6 +132,73 @@ export class SnakeBody {
       })
     );
     this.body.pop();
+  }
+
+  imageLoaded() {
+    this.body.forEach((el) => (el.texture.img = this.texture.img));
+  }
+
+  grow(ammount) {
+    for (let i = 0; i < ammount; i++) {
+      this.body.push(
+        new GameObject({
+          isDisplayed: true,
+          texture: {
+            img: this.texture.img,
+            sx: 0,
+            sy:
+              this.directionCodes[this.head.movement.direction] *
+                (this.head.size.height + 4) +
+              2,
+          },
+          position: this.body[this.body.length - 1].position,
+        })
+      );
+      switch (this.body[this.body.length - 2].movement.direction) {
+        case "right":
+          this.body[this.body.length - 1].position.x +=
+            this.head.movement.speed * (i + 1);
+          break;
+        case "left":
+          this.body[this.body.length - 1].position.x -=
+            this.head.movement.speed * (i + 1);
+          break;
+        case "up":
+          this.body[this.body.length - 1].position.y -=
+            this.head.movement.speed * (i + 1);
+          break;
+        case "down":
+          this.body[this.body.length - 1].position.y +=
+            this.head.movement.speed * (i + 1);
+          break;
+        default:
+          break;
+      }
+    }
+    this._brushTextures();
+  }
+
+  _jerk() {}
+
+  _run(axis) {
+    let n = 4;
+    this.body[n].position[axis] =
+      this.head.position[axis] + 8 * this.path[this.count];
+
+    for (let i = 1; i < n; i++) {
+      this.body[i].position[axis] =
+        this.head.position[axis] +
+        ((this.body[n].position[axis] - this.head.position[axis]) / n) * i;
+      // if (!this.body[i].position.y) debugger;
+    }
+
+    this.forward ? this.count++ : this.count--;
+
+    if (this.count == this.path.length - 1 || this.count == 0)
+      this.forward = !this.forward;
+  }
+
+  _brushTextures() {
     this.body.forEach((el, i) => {
       // el.isDisplayed =
       //   i === 0 ||
@@ -118,18 +214,5 @@ export class SnakeBody {
       //     : false;
       el.texture.sx = i === 0 ? 0 : i === this.body.length - 1 ? 72 : 36;
     });
-
-    // console.log(this.body[0].movement);
   }
-
-  imageLoaded() {
-    this.body.forEach((el) => (el.texture.img = this.texture.img));
-  }
-
-  grow(ammount) {
-    for (let i = 0; i < ammount; i++)
-      this.body.push(new GameObject({ isDisplayed: false, texture: {} }));
-  }
-
-  _jerk() {}
 }

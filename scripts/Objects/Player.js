@@ -138,6 +138,19 @@ export class Player extends GameObject {
     this.status.level++;
   }
 
+  runStart() {
+    this.bodyObject.isRunning = true;
+    this.movement.speed += 2;
+    this.bodyLength = this.body.length;
+    this.body.splice(Math.floor(this.bodyLength / 2));
+  }
+  runStop() {
+    this.bodyObject.isRunning = false;
+    this.movement.speed -= 2;
+    this.bodyObject.grow(Math.floor(this.bodyLength / 2) + 1);
+    for (let i = 0; i < this.body.length / 2.5; i++) this.bodyObject.renew();
+  }
+
   grow() {
     this.bodyObject.grow(20);
     this.status.maxHP += 2;

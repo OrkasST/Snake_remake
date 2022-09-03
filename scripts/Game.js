@@ -14,14 +14,23 @@ export class Game {
     this.screen = screen || new Screen({});
     this.data = data;
     this.controller = new Controller([
-      { code: "KeyM", action: "stop_player" },
-      { code: "KeyW", action: "move_player_up" },
-      { code: "KeyS", action: "move_player_down" },
-      { code: "KeyA", action: "move_player_left" },
-      { code: "KeyD", action: "move_player_right" },
-      { code: "KeyQ", action: "create_magic_ball" },
-      { code: "KeyE", action: "create_fast_magic_ball" },
-      { code: "KeyI", action: "upgrade_menu" },
+      { type: "keydown", code: "KeyM", action: "stop_player" },
+      { type: "keydown", code: "KeyW", action: "move_player_up" },
+      { type: "keydown", code: "KeyS", action: "move_player_down" },
+      { type: "keydown", code: "KeyA", action: "move_player_left" },
+      { type: "keydown", code: "KeyD", action: "move_player_right" },
+      { type: "keydown", code: "ShiftLeft", action: "run_start" },
+
+      // { type: "keyup", code: "KeyM", action: "stop_player" },
+      // { type: "keyup", code: "KeyW", action: "stop_player" },
+      // { type: "keyup", code: "KeyS", action: "stop_player" },
+      // { type: "keyup", code: "KeyA", action: "stop_player" },
+      // { type: "keyup", code: "KeyD", action: "stop_player" },
+      { type: "keyup", code: "ShiftLeft", action: "run_stop" },
+
+      { type: "keydown", code: "KeyQ", action: "create_magic_ball" },
+      { type: "keydown", code: "KeyE", action: "create_fast_magic_ball" },
+      { type: "keydown", code: "KeyI", action: "upgrade_menu" },
     ]);
     this.dirnCodes = {
       right: 0,
@@ -162,6 +171,9 @@ export class Game {
           this[el[1]].movement.direction = el[2];
           this.log = true;
           break;
+        case "stop":
+          this.player.movement.status = "standing";
+          break;
         case "create":
           this.player.createMagic(time, el.splice(1).join("_"));
           break;
@@ -170,6 +182,9 @@ export class Game {
           break;
         case "button":
           this.player.modifyParameter(el[1], el[2]);
+          break;
+        case "run":
+          el[1] === "start" ? this.player.runStart() : this.player.runStop();
           break;
         default:
           break;

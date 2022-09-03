@@ -6,11 +6,15 @@ export class Controller {
 
   addListener() {
     document.addEventListener("keydown", (e) => {
-      // console.log(e.code);
+      console.log(e.code + " down");
+      this.modifyActionList(e);
+    });
+    document.addEventListener("keyup", (e) => {
+      console.log(e.code + " up");
       this.modifyActionList(e);
     });
     document.addEventListener("click", (e) => {
-      console.log(e);
+      // console.log(e);
       this.modifyActionList(e);
     });
   }
@@ -22,9 +26,10 @@ export class Controller {
           e.target.innerText
         }`
       );
+      return;
     }
     this.codeList.forEach((el) => {
-      if (el.code == e?.code) {
+      if (el.code == e.code && el.type == e.type) {
         this.actionList.push(el.action);
       }
     });

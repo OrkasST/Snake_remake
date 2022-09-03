@@ -32,7 +32,7 @@ export class AntSpawner extends Spawner {
         )
       );
       this.previousSpawnTime = time;
-      console.log("Ant created");
+      // console.log("Ant created");
     }
   }
 }

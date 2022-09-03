@@ -9,11 +9,15 @@ export class AppleSpawner extends Spawner {
   }) {
     super({ interval, position, spawnRadius, image: "apple" });
     this.applesAmmount = 0;
+    this.spawnLimit = 50;
   }
   spawn(time) {
+    if (time - this.previousSpawnTime >= this.interval * 1000)
+      this.apples.applesAmmount = 0;
     if (
-      time - this.previousSpawnTime >= this.interval ||
-      this.previousSpawnTime === 0
+      (time - this.previousSpawnTime >= this.interval ||
+        this.previousSpawnTime === 0) &&
+      this.applesAmmount < this.spawnLimit
     ) {
       this._createObject(
         new Apple(
@@ -25,8 +29,8 @@ export class AppleSpawner extends Spawner {
           this.path
         )
       );
+      this.applesAmmount++;
       this.previousSpawnTime = time;
-      console.log("Ant created");
     }
   }
 }
