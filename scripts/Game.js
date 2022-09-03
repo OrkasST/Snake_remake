@@ -37,7 +37,8 @@ export class Game {
       Video_001: new Scene(new Video_001()),
       Part_001: new Scene(new Game_Part_001()),
     };
-    this.menu = new Menu();
+    this.menu = new Menu({});
+    this.controller.getButtons(this.menu.buttons);
   }
 
   init() {
@@ -68,6 +69,7 @@ export class Game {
       }
     }
     if (this.currentScene.type === "game") {
+      this.menu.getParams(this.player.status);
       if (this.player.status.currentHP <= 0) this.player.death();
       this.collider.checkCollisions(data);
 
@@ -165,6 +167,9 @@ export class Game {
           break;
         case "upgrade":
           this.menu.toggleMenu();
+          break;
+        case "button":
+          this.player.modifyParameter(el[1], el[2]);
           break;
         default:
           break;

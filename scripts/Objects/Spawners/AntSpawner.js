@@ -3,7 +3,7 @@ import { Spawner } from "./Spawner.js";
 
 export class AntSpawner extends Spawner {
   constructor({
-    interval = 50000,
+    interval = 5000,
     position = { x: 0, y: 0 },
     spawnRadius = 200,
   }) {

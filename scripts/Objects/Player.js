@@ -25,6 +25,8 @@ export class Player extends GameObject {
       pointsToGrow: 2,
       upgrades: 0,
       level: 1,
+      resurrections: 0,
+      size: 0,
     },
     movement = {
       status: "standing",
@@ -77,6 +79,14 @@ export class Player extends GameObject {
         },
       ],
     ]);
+    this.cost = { defence: 1, attack: 1, magic: 1, size: 1, resurrections: 3 };
+    this.parms = {
+      defence: "defence",
+      attack: "physicalAttack",
+      magic: "magicAttack",
+      size: "size",
+      resurrections: "resurrections",
+    };
   }
 
   setBody(bodyObject) {
@@ -100,6 +110,7 @@ export class Player extends GameObject {
     this.status.points = 0;
     this.status.upgrades = 0;
     this.status.pointsToGrow = this._calculatePoints(this.status.level);
+    this.status.maxHP = 10 + this.status.size * 2;
     this.status.currentHP = this.status.maxHP + 0;
     console.log(this.body.length);
   }
@@ -112,8 +123,25 @@ export class Player extends GameObject {
     return points;
   }
 
+  modifyParameter(parameter, modifier) {
+    if (this.status.upgrades < this.cost[parameter]) return;
+    modifier === "+"
+      ? this.status[this.parms[parameter]]++
+      : this.status[this.parms[parameter]]--;
+    this.status.upgrades -= this.cost[parameter];
+    if (parameter === "size") this.bodyObject.bodyLength += 20;
+    else {
+      this.body.splice(-20);
+      this.status.maxHP -= 2;
+      this.status.currentHP -= 2;
+    }
+    this.status.level++;
+  }
+
   grow() {
     this.bodyObject.grow(20);
+    this.status.maxHP += 2;
+    this.status.currentHP += 2;
   }
 
   createMagic(time, magic) {

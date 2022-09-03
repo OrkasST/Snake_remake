@@ -8,6 +8,7 @@ export class AppleSpawner extends Spawner {
     spawnRadius = 200,
   }) {
     super({ interval, position, spawnRadius, image: "apple" });
+    this.applesAmmount = 0;
   }
   spawn(time) {
     if (

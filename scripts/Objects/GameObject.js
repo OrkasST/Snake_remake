@@ -93,7 +93,8 @@ export class GameObject {
     this.isInOrderToDestroy = true;
   }
   _recalculateHP(damage, object) {
-    this.status.currentHP -= damage - this.status.defence;
+    this.status.currentHP -=
+      damage - this.status.defence > 0 ? damage - this.status.defence : 0;
     if (this.status.currentHP <= 0) {
       let pointsToGive = this.status.maxHP;
       object.status.currentHP = object.raiseHP(
