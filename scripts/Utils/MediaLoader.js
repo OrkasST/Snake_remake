@@ -30,7 +30,7 @@ export class MediaLoader {
         : (img.onload = () => resolve(name));
       img.onerror = (error) => reject(error);
       console.log(window.location.origin + src);
-      img.src = "Snake_remake" + src;
+      img.src = src;
     });
   }
 }
