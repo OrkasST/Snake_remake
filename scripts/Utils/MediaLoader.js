@@ -29,6 +29,7 @@ export class MediaLoader {
         ? (img.oncanplaythrough = () => resolve(name))
         : (img.onload = () => resolve(name));
       img.onerror = (error) => reject(error);
+      console.log(window.location.origin + src);
       img.src = src;
     });
   }
