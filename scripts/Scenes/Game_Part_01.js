@@ -28,11 +28,11 @@ export class Game_Part_001 {
     });
     this.objects.magic = this.objects.player.classicMagicShotTexture;
     this.textures = {
-      "map-tiles": "./../../images/tiles.png",
-      snake: "./../../images/snake_10.png",
-      ant: "./../../images/ant.png",
-      apple: "./../../images/apple.png",
-      magic: "./../../images/Magic_ball.png",
+      "map-tiles": "./images/tiles.png",
+      snake: "./images/snake_10.png",
+      ant: "./images/ant.png",
+      apple: "./images/apple.png",
+      magic: "./images/Magic_ball.png",
     };
   }
 
