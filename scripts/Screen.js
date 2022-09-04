@@ -224,6 +224,22 @@ export class Screen {
       y: 47,
       text: `${status.points}/${status.pointsToGrow}`,
     });
+
+    //screen info
+    this.drawText({
+      font: "20px Arial",
+      color: "#000000",
+      x: this.width - 240,
+      y: 80,
+      text: `width: ${this.width}`,
+    });
+    this.drawText({
+      font: "20px Arial",
+      color: "#000000",
+      x: this.width - 240,
+      y: 100,
+      text: `height: ${this.height}`,
+    });
   }
 
   drawScene(scene) {
