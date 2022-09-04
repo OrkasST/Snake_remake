@@ -81,16 +81,16 @@ video {
     position: relative;
     width: 30vh;
     height: 30vh;
-    left: 3vw;
-    bottom: 3vw;
+    left: 15vw;
+    bottom: 15vw;
     transform: rotate(45deg);
 }
 
 .arrows div {
     position: absolute;
     background-color: blue;
-    width: 14vw;
-    height: 14vw;
+    width: 14vh;
+    height: 14vh;
     font-size: 2rem;
 }
 
