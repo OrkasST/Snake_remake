@@ -29,9 +29,9 @@ export class Game_Part_001 {
     this.objects.magic = this.objects.player.classicMagicShotTexture;
     this.textures = {
       "map-tiles": "./Snake_remake/imohbsdvdsvDBges/tiles.png",
-      snake: "./Snake_remake/images/snake_10.png",
-      ant: "./Snake_remake/images/ant.png",
-      apple: "./Snake_remake/images/apple.png",
+      snake: "./images/snake_10.png",
+      ant: "Snake_remake/images/ant.png",
+      apple: "/Snake_remake/images/apple.png",
       magic: "./Snake_remake/images/Magic_ball.png",
     };
   }
