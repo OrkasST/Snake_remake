@@ -81,8 +81,8 @@ video {
     position: relative;
     width: 30vh;
     height: 30vh;
-    left: 15vw;
-    bottom: 15vw;
+    left: 7vw;
+    bottom: 12vw;
     transform: rotate(45deg);
 }
 
