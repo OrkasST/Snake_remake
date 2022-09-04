@@ -41,6 +41,12 @@ export class Controller {
         case "right":
           this.actionList.push("move_player_right");
           break;
+        case "run":
+          this.actionList.push("run_start");
+          break;
+        case "menu":
+          this.actionList.push("upgrade_menu");
+          break;
         default:
           break;
       }
