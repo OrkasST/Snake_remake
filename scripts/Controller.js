@@ -27,6 +27,23 @@ export class Controller {
         }`
       );
       return;
+    } else if (e.type === "click") {
+      switch (e.target.id) {
+        case "up":
+          this.actionList.push("move_player_up");
+          break;
+        case "down":
+          this.actionList.push("move_player_down");
+          break;
+        case "left":
+          this.actionList.push("move_player_left");
+          break;
+        case "right":
+          this.actionList.push("move_player_right");
+          break;
+        default:
+          break;
+      }
     }
     this.codeList.forEach((el) => {
       if (el.code == e.code && el.type == e.type) {

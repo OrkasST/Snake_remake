@@ -1,0 +1,160 @@
+.mobile_controls {
+    display: none;
+}
+
+
+@media (max-width: 800px) {
+
+    .mobile_controls {
+        position: absolute;
+        width: 100vw;
+        height: 20vh;
+        bottom: 0;
+        left: 0;
+        background-color: transparent;
+        display: block;
+    }
+    .arrows {
+        position: relative;
+        background-color: transparent;
+        position: relative;
+        width: 30vh;
+        height: 30vh;
+        left: 7vw;
+        bottom: 16vw;
+        transform: rotate(45deg);
+    }
+
+    .arrows button {
+        position: absolute;
+        background-color: transparent;
+        width: 14vh;
+        height: 14vh;
+        font-size: 2rem;
+        border: none;
+    }
+
+    #up {
+        left: 0;
+        top: 0;
+        border-top: solid #000 2px;
+        border-left: solid #000 2px;
+        background: linear-gradient(-45deg, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 20%, rgba(234,234,234,0.2) 40%, rgba(191,191,191,0.5) 60%, rgba(0,0,0,0.804359243697479) 100%);
+    }
+    #up::after {
+        content: "";
+        width: 40%;
+        height: 40%;
+        background-color: transparent;
+        position: absolute;
+        bottom: 20%;
+        right: 20%;
+        border-bottom: solid #424242 1px;
+        border-right: solid #424242 1px;
+    }
+    #up::before {
+        content: "";
+        width: 80%;
+        height: 80%;
+        background-color: transparent;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        border-top: solid #979797 1px;
+        border-left: solid #979797 1px;
+    }
+
+
+    #right {
+        top: 0;
+        right: 0;
+        border-top: solid #000 2px;
+        border-right: solid #000 2px;
+        background: linear-gradient(45deg, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 20%, rgba(234,234,234,0.2) 40%, rgba(191,191,191,0.5) 60%, rgba(0,0,0,0.804359243697479) 100%);
+    }
+    #right::after {
+        content: "";
+        width: 40%;
+        height: 40%;
+        background-color: transparent;
+        position: absolute;
+        bottom: 20%;
+        left: 20%;
+        border-bottom: solid #424242 1px;
+        border-left: solid #424242 1px;
+    }
+    #right::before {
+        content: "";
+        width: 80%;
+        height: 80%;
+        background-color: transparent;
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        border-top: solid #979797 1px;
+        border-right: solid #979797 1px;
+    }
+
+
+    #down {
+        bottom: 0;
+        right: 0;
+        border-bottom: solid #000 2px;
+        border-right: solid #000 2px;
+        background: linear-gradient(135deg, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 20%, rgba(234,234,234,0.2) 40%, rgba(191,191,191,0.5) 60%, rgba(0,0,0,0.804359243697479) 100%);
+    }
+    #down::after {
+        content: "";
+        width: 40%;
+        height: 40%;
+        background-color: transparent;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        border-top: solid #424242 1px;
+        border-left: solid #424242 1px;
+    }
+    #down::before {
+        content: "";
+        width: 80%;
+        height: 80%;
+        background-color: transparent;
+        position: absolute;
+        bottom: 5%;
+        right: 5%;
+        border-bottom: solid #979797 1px;
+        border-right: solid #979797 1px;
+    }
+
+
+    #left {
+        bottom: 0;
+        left: 0;
+        border-bottom: solid #000 2px;
+        border-left: solid #000 2px;
+        background: linear-gradient(-135deg, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 20%, rgba(234,234,234,0.2) 40%, rgba(191,191,191,0.5) 60%, rgba(0,0,0,0.804359243697479) 100%);
+    }
+    #left::after {
+        content: "";
+        width: 40%;
+        height: 40%;
+        background-color: transparent;
+        position: absolute;
+        top: 20%;
+        right: 20%;
+        border-top: solid #424242 1px;
+        border-right: solid #424242 1px;
+    }
+    #left::before {
+        content: "";
+        width: 80%;
+        height: 80%;
+        background-color: transparent;
+        position: absolute;
+        bottom: 5%;
+        left: 5%;
+        border-bottom: solid #979797 1px;
+        border-left: solid #979797 1px;
+    }
+
+}
