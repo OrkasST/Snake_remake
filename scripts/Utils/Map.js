@@ -23,9 +23,13 @@ export class Map {
 
   async imageLoaded() {
     console.log("Creating Map....");
-    const got = await fetch(`./../../maps/${this.mapName}.json`);
+    const got = await fetch(`/Snake_remake/maps/${this.mapName}.json`);
     //for git-pages:
-    //fetch(`/Snake_remake/maps/${this.mapName}.json`);
+    // fetch(`/Snake_remake/maps/${this.mapName}.json`);
+
+    //for pc
+    // fetch(`./../../maps/${this.mapName}.json`);
+
     this.mapData = await got.json();
     this.createMap(1);
     console.log("Map Created");
