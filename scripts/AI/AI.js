@@ -22,16 +22,16 @@ export class AI {
     // console.log("Path set");
   }
 
-  followPath() {
+  followPath(me) {
     if (this.isPathClosed) return;
     if (this.step >= this.path.length && !this.isPathClosed) {
       this.isPathClosed = true;
       // console.log("~~~~PathClosed~~~~");
       return;
     }
-    this.me.movement.status = "moving";
-    if (!this.localPathIsCreated) this._cteatePathTo(this.path[this.step]);
-    if (this._isPointReached(this.path[this.step])) {
+    me.movement.status = "moving";
+    if (!this.localPathIsCreated) this._cteatePathTo(me, this.path[this.step]);
+    if (this._isPointReached(me, this.path[this.step])) {
       this.step++;
       // console.log("step: ", this.step);
       return;
@@ -44,12 +44,12 @@ export class AI {
       // console.groupEnd();
       debugger;
     }
-    this.me.movement.direction = this._localPath[this._localStep];
+    me.movement.direction = this._localPath[this._localStep];
     this._localStep++;
   }
 
-  prepare(destination) {
-    this.me.movement.status = "moving";
+  prepare(me, destination) {
+    me.movement.status = "moving";
     // if (destination) this.chooseDirection(destination)
     // if (this.stepsCount <= 0) {
     //   this.chooseDirection();
@@ -87,12 +87,12 @@ export class AI {
     this.stepsCount = ind;
   }
 
-  _isPointReached(point = { x: 0, y: 0, i: 0 }, i = 0) {
+  _isPointReached(me, point = { x: 0, y: 0, i: 0 }, i = 0) {
     if (
-      point.x >= this.me.position.x &&
-      point.x <= this.me.position.x + this.me.size.width &&
-      point.y >= this.me.position.y &&
-      point.y <= this.me.position.y + this.me.size.height
+      point.x >= me.position.x &&
+      point.x <= me.position.x + me.size.width &&
+      point.y >= me.position.y &&
+      point.y <= me.position.y + me.size.height
     ) {
       // console.log(`****Point ${i} arrived`);
       this.localPathIsCreated = false;
@@ -100,16 +100,16 @@ export class AI {
     } else return false;
   }
 
-  _cteatePathTo(point = { x: 0, y: 0 }) {
+  _cteatePathTo(me, point = { x: 0, y: 0 }) {
     this._localStep = 0;
-    let distX = point.x - this.me.position.x, // - this.me.size.width / 2,
-      distY = point.y - this.me.position.y; // - this.me.size.height / 2;
+    let distX = point.x - me.position.x, // - this.me.size.width / 2,
+      distY = point.y - me.position.y; // - this.me.size.height / 2;
 
     let xAxis = distX > 0 ? "right" : "left",
       yAxis = distY > 0 ? "down" : "up";
 
-    let stepsX = Math.abs(distX / this.me.movement.speed),
-      stepsY = Math.abs(distY / this.me.movement.speed);
+    let stepsX = Math.abs(distX / me.movement.speed),
+      stepsY = Math.abs(distY / me.movement.speed);
 
     stepsX = distX > 0 ? Math.floor(stepsX) : Math.ceil(stepsX);
     stepsY = distY > 0 ? Math.floor(stepsY) : Math.ceil(stepsY);

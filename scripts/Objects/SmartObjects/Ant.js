@@ -23,12 +23,12 @@ export class Ant extends GameObject {
         physicalAttack: 1,
       },
     });
-    this.AI.setMe(this);
+    // this.AI.setMe(this);
     this.AI.setPath(path);
   }
 
   update(time) {
-    this.AI.followPath([1, 2, 3, 4, 5]);
+    this.AI.followPath(this, [1, 2, 3, 4, 5]);
     switch (this.movement.direction) {
       case "up":
         this.size.width = 20;

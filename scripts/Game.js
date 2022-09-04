@@ -48,6 +48,7 @@ export class Game {
     };
     this.menu = new Menu({});
     this.controller.getButtons(this.menu.buttons);
+    this.dataLogged = false;
   }
 
   init() {
@@ -71,6 +72,24 @@ export class Game {
   }
 
   update(data, time) {
+    if (time > 10000 && !this.dataLogged) {
+      // let save = data.map((el) => {
+      //   if (Array.isArray(el)) return el;
+      //   return {
+      //     position: el.position,
+      //     status: el.status,
+      //     movement: el.movement,
+      //     name: el.name,
+      //     type: el.type,
+      //   };
+      // });
+      save = JSON.stringify(data);
+      console.log(data);
+      //console.log(save);
+      //localStorage.setItem("save", save);
+      this.dataLogged = true;
+    }
+
     if (!this.currentScene || this.currentScene.isFinished) {
       if (!this.currentScene?.inProcess) {
         this.prepareScene(time);
