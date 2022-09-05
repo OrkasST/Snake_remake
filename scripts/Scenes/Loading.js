@@ -5,8 +5,8 @@ export class Loading extends Scene {
   constructor({ nextSceneName = "", loadList = {} }) {
     super({
       background: {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: window.outerWidth,
+        height: window.outerHeight,
       },
       objects: {
         main: {
