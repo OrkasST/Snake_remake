@@ -52,9 +52,11 @@ export class Game {
   }
 
   init() {
+    // console.log(`${window.innerWidth} / ${window.innerHeight}`);
+    // console.log(`${window.outerWidth} / ${window.outerHeight}`);
     this.screen.setSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: window.outerWidth,
+      height: window.outerHeight,
     });
     this.screen.camera.setModifiers();
     this.controller.addListener();

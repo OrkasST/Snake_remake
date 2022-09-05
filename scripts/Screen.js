@@ -13,6 +13,13 @@ export class Screen {
     this.ctx = this.cnv.getContext("2d");
     this.camera = new Camera();
     this.loader = new MediaLoader();
+    // document.addEventListener("resize", () => {
+    //   console.log("window resized");
+    //   this.width = window.innerWidth;
+    //   this.height = window.innerHeight;
+    //   this.cnv.width = this.width;
+    //   this.cnv.height = this.height;
+    // });
   }
 
   setSize({ width, height }) {
