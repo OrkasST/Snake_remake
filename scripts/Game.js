@@ -142,6 +142,11 @@ export class Game {
   }
 
   render(data) {
+    if (window.outerWidth < 1000)
+      this.screen.setSize({
+        width: window.outerWidth,
+        height: window.outerHeight,
+      });
     this.screen.clear();
     if (this.currentScene.type === "game") {
       data.forEach((el) => {
