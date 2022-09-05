@@ -247,6 +247,20 @@ export class Screen {
       y: 100,
       text: `height: ${this.height}`,
     });
+    this.drawText({
+      font: "20px Arial",
+      color: "#000000",
+      x: this.width - 240,
+      y: 120,
+      text: `outer_width: ${window.outerWidth}`,
+    });
+    this.drawText({
+      font: "20px Arial",
+      color: "#000000",
+      x: this.width - 240,
+      y: 140,
+      text: `outer_height: ${window.outerHeight}`,
+    });
   }
 
   drawScene(scene) {
