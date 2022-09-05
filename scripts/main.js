@@ -9,9 +9,13 @@ import { Game } from "./Game.js";
 window.addEventListener("DOMContentLoaded", (event) => {
   const startBtn = document.getElementById("start");
   startBtn.addEventListener("click", (e) => {
-    startBtn.classList.add("_hidden");
-    const Saper = new Game({});
-    Saper.init();
-    //document.documentElement.requestFullscreen().catch((e) => console.log(e));
+    document.documentElement
+      .requestFullscreen()
+      .then(() => {
+        startBtn.classList.add("_hidden");
+        const Saper = new Game({});
+        Saper.init();
+      })
+      .catch((e) => console.log(e));
   });
 });
