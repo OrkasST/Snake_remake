@@ -11,11 +11,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
   startBtn.addEventListener("click", (e) => {
     document.documentElement
       .requestFullscreen()
-      .then(() => {
-        startBtn.classList.add("_hidden");
-        const Saper = new Game({});
-        Saper.init();
-      })
+      // .then(() => {
+      //   startBtn.classList.add("_hidden");
+      //   const Saper = new Game({});
+      //   Saper.init();
+      // })
       .catch((e) => console.log(e));
+    startBtn.classList.add("_hidden");
+    const Saper = new Game({});
+    Saper.init();
   });
 });

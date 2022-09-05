@@ -23,6 +23,7 @@ export class Screen {
   }
 
   setSize({ width, height }) {
+    alert(width + "/" + height);
     this.height = height;
     this.width = width;
     this.cnv.width = width;
