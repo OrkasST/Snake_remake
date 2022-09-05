@@ -6,15 +6,18 @@ export class Controller {
 
   addListener() {
     document.addEventListener("keydown", (e) => {
-      console.log(e.code + " down");
       this.modifyActionList(e);
     });
     document.addEventListener("keyup", (e) => {
-      console.log(e.code + " up");
       this.modifyActionList(e);
     });
     document.addEventListener("click", (e) => {
-      // console.log(e);
+      this.modifyActionList(e);
+    });
+    document.addEventListener("touchstart", (e) => {
+      this.modifyActionList(e);
+    });
+    document.addEventListener("touchend", (e) => {
       this.modifyActionList(e);
     });
   }
@@ -41,15 +44,16 @@ export class Controller {
         case "right":
           this.actionList.push("move_player_right");
           break;
-        case "run":
-          this.actionList.push("run_start");
-          break;
-        case "menu":
+        case "toggle_menu":
           this.actionList.push("upgrade_menu");
           break;
         default:
           break;
       }
+    } else if (e.type === "touchstart") {
+      if (e.target.id === "run") this.actionList.push("run_start");
+    } else if (e.type === "touchend") {
+      if (e.target.id === "run") this.actionList.push("run_stop");
     }
     this.codeList.forEach((el) => {
       if (el.code == e.code && el.type == e.type) {
