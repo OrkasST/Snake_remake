@@ -13,17 +13,9 @@ export class Screen {
     this.ctx = this.cnv.getContext("2d");
     this.camera = new Camera();
     this.loader = new MediaLoader();
-    // document.addEventListener("resize", () => {
-    //   console.log("window resized");
-    //   this.width = window.innerWidth;
-    //   this.height = window.innerHeight;
-    //   this.cnv.width = this.width;
-    //   this.cnv.height = this.height;
-    // });
   }
 
   setSize({ width, height }) {
-    // alert(width + "/" + height);
     this.height = height;
     this.width = width;
     this.cnv.width = width;
@@ -190,6 +182,40 @@ export class Screen {
       text: `${status.currentMP}/${status.maxMP}`,
     });
 
+    // draw stamina bar
+    this._draw({
+      x: 50,
+      y: 90,
+      width: 162,
+      height: 17,
+      color: "#000000",
+    });
+    this._draw({
+      x: 51,
+      y: 91,
+      width: 160,
+      height: 15,
+      color: "#FFFFFF",
+    });
+    let staminaGradient = this.ctx.createLinearGradient(0, 91, 0, 106);
+    staminaGradient.addColorStop(0, "#b4f9e5");
+    staminaGradient.addColorStop(0.5, "#157c70");
+    staminaGradient.addColorStop(1, "#49909f");
+    this._draw({
+      x: 51,
+      y: 91,
+      width: (160 / status.maxStamina) * status.currentStamina,
+      height: 15,
+      color: staminaGradient,
+    });
+    this.drawText({
+      font: "13px Arial",
+      color: "#FFFFFF",
+      x: 58,
+      y: 103,
+      text: `${status.currentStamina}/${status.maxStamina}`,
+    });
+
     // draw groth status bar
     this.drawText({
       font: "20px Arial",
@@ -234,34 +260,34 @@ export class Screen {
     });
 
     //screen info
-    this.drawText({
-      font: "20px Arial",
-      color: "#000000",
-      x: this.width - 240,
-      y: 80,
-      text: `width: ${this.width}`,
-    });
-    this.drawText({
-      font: "20px Arial",
-      color: "#000000",
-      x: this.width - 240,
-      y: 100,
-      text: `height: ${this.height}`,
-    });
-    this.drawText({
-      font: "20px Arial",
-      color: "#000000",
-      x: this.width - 240,
-      y: 120,
-      text: `outer_width: ${window.outerWidth}`,
-    });
-    this.drawText({
-      font: "20px Arial",
-      color: "#000000",
-      x: this.width - 240,
-      y: 140,
-      text: `outer_height: ${window.outerHeight}`,
-    });
+    // this.drawText({
+    //   font: "20px Arial",
+    //   color: "#000000",
+    //   x: this.width - 240,
+    //   y: 80,
+    //   text: `width: ${this.width}`,
+    // });
+    // this.drawText({
+    //   font: "20px Arial",
+    //   color: "#000000",
+    //   x: this.width - 240,
+    //   y: 100,
+    //   text: `height: ${this.height}`,
+    // });
+    // this.drawText({
+    //   font: "20px Arial",
+    //   color: "#000000",
+    //   x: this.width - 240,
+    //   y: 120,
+    //   text: `outer_width: ${window.outerWidth}`,
+    // });
+    // this.drawText({
+    //   font: "20px Arial",
+    //   color: "#000000",
+    //   x: this.width - 240,
+    //   y: 140,
+    //   text: `outer_height: ${window.outerHeight}`,
+    // });
   }
 
   drawScene(scene) {

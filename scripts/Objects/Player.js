@@ -27,6 +27,8 @@ export class Player extends GameObject {
       level: 1,
       resurrections: 0,
       size: 0,
+      maxStamina: 100,
+      currentStamina: 100,
     },
     movement = {
       status: "standing",
@@ -87,6 +89,8 @@ export class Player extends GameObject {
       size: "size",
       resurrections: "resurrections",
     };
+    this.lastStaminaRecoveryTime = 0;
+    this.staminaRecoverySpeed = 100; // 1 point in 500 ms
   }
 
   setBody(bodyObject) {
@@ -104,6 +108,7 @@ export class Player extends GameObject {
   }
 
   death() {
+    this.runStop();
     this.setPosition(this.spawnPoint.x, this.spawnPoint.y);
     this.body.splice(this.bodyObject.bodyLength);
     this.body.forEach((el) => (el.position = this.spawnPoint));
@@ -112,6 +117,7 @@ export class Player extends GameObject {
     this.status.pointsToGrow = this._calculatePoints(this.status.level);
     this.status.maxHP = 10 + this.status.size * 2;
     this.status.currentHP = this.status.maxHP + 0;
+    this.status.currentStamina = this.status.maxStamina + 0;
     console.log(this.body.length);
   }
 
@@ -139,12 +145,14 @@ export class Player extends GameObject {
   }
 
   runStart() {
+    if (this.status.currentStamina < 10) return;
     this.bodyObject.isRunning = true;
     this.movement.speed += 2;
     this.bodyLength = this.body.length;
     this.body.splice(Math.floor(this.bodyLength / 2));
   }
   runStop() {
+    if (!this.bodyObject.isRunning) return;
     this.bodyObject.isRunning = false;
     this.movement.speed -= 2;
     this.bodyObject.grow(Math.floor(this.bodyLength / 2) + 1);

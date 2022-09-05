@@ -101,6 +101,7 @@ export class Game {
     if (this.currentScene.type === "game") {
       this.menu.getParams(this.player.status);
       if (this.player.status.currentHP <= 0) this.player.death();
+
       this.collider.checkCollisions(data);
 
       let actionList = this.controller.getActionList();
@@ -131,6 +132,21 @@ export class Game {
             break;
         }
       });
+
+      if (this.player.bodyObject.isRunning) {
+        this.player.status.currentStamina--;
+        console.log("stamina: " + this.player.status.currentStamina);
+        if (this.player.status.currentStamina < 1) this.player.runStop();
+      } else if (
+        this.player.status.currentStamina < this.player.status.maxStamina &&
+        time - this.player.lastStaminaRecoveryTime >=
+          this.player.staminaRecoverySpeed
+      ) {
+        this.player.lastStaminaRecoveryTime = time;
+        this.player.status.currentStamina++;
+        console.log("stamina: " + this.player.status.currentStamina);
+      }
+
       // debugger;
       for (let j = 0; j < data.length; j++) {
         if (!Array.isArray(data[j]) && data[j].isInOrderToDestroy)
