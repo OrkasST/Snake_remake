@@ -279,10 +279,9 @@ export class Screen {
      this.drawText({
        font: "20px Arial",
        color: "#000000",
-       x: this.width - 240,
+       x: this.width - 640,
        y: 100,
-       text: `orientation type:
-       ${screen.orientation.type}`,
+       text: `orientation type: ${screen.orientation.type}`,
      });
     // this.drawText({
     //   font: "20px Arial",
