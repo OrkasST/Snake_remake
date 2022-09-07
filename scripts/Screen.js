@@ -269,13 +269,13 @@ export class Screen {
     });
 
     //screen info
-    // this.drawText({
-    //   font: "20px Arial",
-    //   color: "#000000",
-    //   x: this.width - 240,
-    //   y: 80,
-    //   text: `width: ${this.width}`,
-    // });
+     this.drawText({
+       font: "20px Arial",
+       color: "#000000",
+       x: this.width - 240,
+       y: 80,
+       text: `orientation angle: ${screen.orientation.angle}`,
+     });
     // this.drawText({
     //   font: "20px Arial",
     //   color: "#000000",
