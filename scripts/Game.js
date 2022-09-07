@@ -163,6 +163,15 @@ export class Game {
         width: window.outerWidth,
         height: window.outerHeight,
       });
+    // screen.orientation.angle !== 90
+    //   ? this.screen.setSize({
+    //       width: window.outerWidth,
+    //       height: window.outerHeight,
+    //     })
+    //   : this.screen.setSize({
+    //       width: window.outerHeight,
+    //       height: window.outerWidth,
+    //     });
     this.screen.clear();
     if (this.currentScene.type === "game") {
       data.forEach((el) => {

@@ -22,3 +22,5 @@ window.addEventListener("DOMContentLoaded", (event) => {
     Saper.init();
   });
 });
+
+document.addEventListener("click", (e) => console.log(e.target));

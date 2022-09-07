@@ -17,7 +17,13 @@ export class Camera {
   }
 
   setModifiers(x, y) {
-    this.modifiers.x = window.outerWidth / 2;
-    this.modifiers.y = window.outerHeight / 2;
+    this.modifiers.x =
+      screen.orientation.angle !== 90
+        ? window.outerWidth / 2
+        : window.outerHeight / 2;
+    this.modifiers.y =
+      screen.orientation.angle !== 90
+        ? window.outerHeight / 2
+        : window.outerWidth / 2;
   }
 }
