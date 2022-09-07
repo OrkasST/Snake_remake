@@ -18,11 +18,11 @@ export class Camera {
 
   setModifiers(x, y) {
     this.modifiers.x =
-      screen.orientation.angle !== 90
+      screen.orientation.type !== "portrait-primary"
         ? window.outerWidth / 2
         : window.outerHeight / 2;
     this.modifiers.y =
-      screen.orientation.angle !== 90
+      screen.orientation.type !== "portrait-primary"
         ? window.outerHeight / 2
         : window.outerWidth / 2;
   }

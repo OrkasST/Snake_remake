@@ -163,7 +163,7 @@ export class Game {
         width: window.outerWidth,
         height: window.outerHeight,
       });
-     screen.orientation.angle !== 90
+     screen.orientation.type !== "portrait-primary"
        ? this.screen.setSize({
            width: window.outerWidth,
            height: window.outerHeight,

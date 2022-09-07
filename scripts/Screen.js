@@ -15,7 +15,7 @@ export class Screen {
     this.loader = new MediaLoader();
 
      screen.orientation.onchange = () => {
-       screen.orientation.angle !== 90
+       screen.orientation.type !== "portrait-primary"
          ? this.setSize({ width: window.outerWidth, height: window.outerHeight })
          : this.setSize({
              width: window.outerHeight,
