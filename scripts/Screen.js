@@ -14,14 +14,14 @@ export class Screen {
     this.camera = new Camera();
     this.loader = new MediaLoader();
 
-    // screen.orientation.onchange = () => {
-    //   screen.orientation.angle !== 90
-    //     ? this.setSize({ width: window.outerWidth, height: window.outerHeight })
-    //     : this.setSize({
-    //         width: window.outerHeight,
-    //         height: window.outerWidth,
-    //       });
-    // };
+     screen.orientation.onchange = () => {
+       screen.orientation.angle !== 90
+         ? this.setSize({ width: window.outerWidth, height: window.outerHeight })
+         : this.setSize({
+             width: window.outerHeight,
+             height: window.outerWidth,
+           });
+    };
   }
 
   setSize({ width, height }) {
