@@ -47,6 +47,8 @@ export class Controller {
         case "toggle_menu":
           this.actionList.push("upgrade_menu");
           break;
+        case "close":
+          this.actionList.push("close");
         default:
           break;
       }

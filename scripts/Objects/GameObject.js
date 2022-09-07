@@ -4,6 +4,7 @@ export class GameObject {
   constructor({
     name = "StandartObject", // shot, player,
     type = "solid", //player, spawner
+    id = "",
     position = {
       x: 0,
       y: 0,
@@ -53,6 +54,7 @@ export class GameObject {
   }) {
     this.name = name;
     this.type = type;
+    this.id = id;
     this.position = position;
     this.status = status;
     this.movement = movement;

@@ -1,5 +1,6 @@
 export class Scene {
   constructor({
+    name = "Default Loading Scene",
     type = "loading", //game, loading, video
     background = {
       width: window.innerWidth,
@@ -22,6 +23,7 @@ export class Scene {
     _onFinish = () => {},
     _update = null,
   }) {
+    this.name = name;
     this.type = type;
     this.background = background;
     this.objects = objects;

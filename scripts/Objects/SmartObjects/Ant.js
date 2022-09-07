@@ -1,8 +1,9 @@
 import { GameObject } from "../GameObject.js";
 
 export class Ant extends GameObject {
-  constructor(position = { x: 0, y: 0 }, texture, path) {
+  constructor(position = { x: 0, y: 0 }, texture, path, id) {
     super({
+      id,
       name: "ant",
       AIType: "dummy",
       size: { width: 20, height: 40 },

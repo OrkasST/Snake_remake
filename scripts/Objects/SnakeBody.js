@@ -3,7 +3,7 @@ import { GameObject } from "./GameObject.js";
 export class SnakeBody {
   constructor({ head = {}, bodyLength = 10, name = "", imageName = "snake" }) {
     this.type = "snake";
-    this.head = head;
+    // this.head = head;
     this.bodyLength = bodyLength;
     this.name = name;
     this.texture = { name: "snake", img: null };
@@ -82,49 +82,49 @@ export class SnakeBody {
     );
   }
 
-  update() {
+  update(head) {
     // if (this.body.length < this.bodyLength) this._fillBody();
     // console.log("this.head.status.currentHP: ", this.head.status.currentHP);
     if (this.isInJerk) this._jerk();
     if (
-      (this.body[0].position.x === this.head.position.x &&
-        this.body[0].position.y === this.head.position.y) ||
+      (this.body[0].position.x === head.position.x &&
+        this.body[0].position.y === head.position.y) ||
       this.isRenewing
     )
       return;
     this.body[0].color = "#000000";
-    this.renew();
+    this.renew(head);
     this._brushTextures();
-    if (this.isRunning) this._run(this.axis[this.head.movement.direction]);
+    if (this.isRunning) this._run(this.axis[head.movement.direction], head);
 
     // console.log(this.body[0].movement);
   }
 
-  renew() {
+  renew(head) {
     this.body.unshift(
       new GameObject({
         name: this.name,
         type: "snake-body-part",
         position: {
-          x: this.head.position.x,
-          y: this.head.position.y,
+          x: head.position.x,
+          y: head.position.y,
         },
         size: {
-          width: this.head.size.width,
-          height: this.head.size.height,
+          width: head.size.width,
+          height: head.size.height,
         },
-        status: this.head.status,
+        status: head.status,
         texture: {
           img: this.texture.img,
           sx: 0,
           sy:
-            this.directionCodes[this.head.movement.direction] *
-              (this.head.size.height + 4) +
+            this.directionCodes[head.movement.direction] *
+              (head.size.height + 4) +
             2,
         },
         color: "#FF0000",
         movement: {
-          direction: this.head.movement.direction,
+          direction: head.movement.direction,
           previousDirection: this.body[0].movement.direction,
         },
         isDamaging: false,
@@ -138,7 +138,7 @@ export class SnakeBody {
     this.body.forEach((el) => (el.texture.img = this.texture.img));
   }
 
-  grow(ammount) {
+  grow(ammount, head) {
     for (let i = 0; i < ammount; i++) {
       this.body.push(
         new GameObject({
@@ -147,8 +147,8 @@ export class SnakeBody {
             img: this.texture.img,
             sx: 0,
             sy:
-              this.directionCodes[this.head.movement.direction] *
-                (this.head.size.height + 4) +
+              this.directionCodes[head.movement.direction] *
+                (head.size.height + 4) +
               2,
           },
           position: this.body[this.body.length - 1].position,
@@ -157,19 +157,19 @@ export class SnakeBody {
       switch (this.body[this.body.length - 2].movement.direction) {
         case "right":
           this.body[this.body.length - 1].position.x +=
-            this.head.movement.speed * (i + 1);
+            head.movement.speed * (i + 1);
           break;
         case "left":
           this.body[this.body.length - 1].position.x -=
-            this.head.movement.speed * (i + 1);
+            head.movement.speed * (i + 1);
           break;
         case "up":
           this.body[this.body.length - 1].position.y -=
-            this.head.movement.speed * (i + 1);
+            head.movement.speed * (i + 1);
           break;
         case "down":
           this.body[this.body.length - 1].position.y +=
-            this.head.movement.speed * (i + 1);
+            head.movement.speed * (i + 1);
           break;
         default:
           break;
@@ -180,15 +180,15 @@ export class SnakeBody {
 
   _jerk() {}
 
-  _run(axis) {
+  _run(axis, head) {
     let n = 4;
     this.body[n].position[axis] =
-      this.head.position[axis] + 8 * this.path[this.count];
+      head.position[axis] + 8 * this.path[this.count];
 
     for (let i = 1; i < n; i++) {
       this.body[i].position[axis] =
-        this.head.position[axis] +
-        ((this.body[n].position[axis] - this.head.position[axis]) / n) * i;
+        head.position[axis] +
+        ((this.body[n].position[axis] - head.position[axis]) / n) * i;
       // if (!this.body[i].position.y) debugger;
     }
 

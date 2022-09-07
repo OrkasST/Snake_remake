@@ -52,8 +52,6 @@ export class Game {
   }
 
   init() {
-    // console.log(`${window.innerWidth} / ${window.innerHeight}`);
-    // console.log(`${window.outerWidth} / ${window.outerHeight}`);
     this.screen.setSize({
       width: window.outerWidth,
       height: window.outerHeight,
@@ -61,6 +59,7 @@ export class Game {
     this.screen.camera.setModifiers();
     this.controller.addListener();
     this.collider = new Collider();
+    this.getScenefromStorage();
     this.game(this.data);
   }
 
@@ -74,24 +73,6 @@ export class Game {
   }
 
   update(data, time) {
-    // if (time > 10000 && !this.dataLogged) {
-    // let save = data.map((el) => {
-    //   if (Array.isArray(el)) return el;
-    //   return {
-    //     position: el.position,
-    //     status: el.status,
-    //     movement: el.movement,
-    //     name: el.name,
-    //     type: el.type,
-    //   };
-    // });
-    // save = JSON.stringify(data);
-    // console.log(data);
-    //console.log(save);
-    //localStorage.setItem("save", save);
-    // this.dataLogged = true;
-    // }
-
     if (!this.currentScene || this.currentScene.isFinished) {
       if (!this.currentScene?.inProcess) {
         this.prepareScene(time);
@@ -116,7 +97,7 @@ export class Game {
         }
         if (el.isInOrderToDestroy) return;
         if (Array.isArray(el)) {
-          this[el[0].name].update();
+          // this[el[0].name].update(this.player);
           return;
         }
         if (el.type === "spawner") el.spawn(time);
@@ -159,19 +140,15 @@ export class Game {
 
   render(data) {
     if (window.outerWidth < 1000)
-      this.screen.setSize({
-        width: window.outerWidth,
-        height: window.outerHeight,
-      });
-     screen.orientation.type !== "portrait-primary"
-       ? this.screen.setSize({
-           width: window.outerWidth,
-           height: window.outerHeight,
-         })
-       : this.screen.setSize({
-           width: window.outerHeight,
-           height: window.outerWidth,
-         });
+      screen.orientation.type !== "portrait-primary"
+        ? this.screen.setSize({
+            width: window.outerWidth,
+            height: window.outerHeight,
+          })
+        : this.screen.setSize({
+            width: window.outerHeight,
+            height: window.outerWidth,
+          });
     this.screen.clear();
     if (this.currentScene.type === "game") {
       data.forEach((el) => {
@@ -237,6 +214,8 @@ export class Game {
         case "run":
           el[1] === "start" ? this.player.runStart() : this.player.runStop();
           break;
+        case "close":
+          this.close(this.data);
         default:
           break;
       }
@@ -268,6 +247,7 @@ export class Game {
       let objects = this.sceneList[this.nextScene].objects;
       if (this.currentScene.type === "loading") {
         this.data = [];
+        // this.spawners = [];
         for (let name in objects) {
           this[name] = objects[name];
           switch (objects[name].type) {
@@ -282,12 +262,18 @@ export class Game {
               break;
             case "empty":
               break;
+            // case "spawner":
+            //   this.spawners.push(objects[name]);
+            //   objects[name].setIndex(this.spawners.length - 1);
+            //   this.data = [this.data[0], objects[name], ...this.data.splice(1)];
             default:
               this.data = [this.data[0], objects[name], ...this.data.splice(1)];
               break;
           }
         }
         if (this.map) this.collider.setStaticObjects(this.map.hitboxes);
+        if (this.sceneList[this.nextScene].type === "game")
+          this.checkForSavedProgress();
         this.sceneList[this.nextScene].isPrepared = true;
       }
       this.sceneChange(time);
@@ -296,5 +282,51 @@ export class Game {
 
   createObject(object) {
     if (object) this.data = [this.data[0], object, ...this.data.slice(1)];
+  }
+
+  close(data) {
+    localStorage.clear();
+    localStorage.setItem("currentScene", this.currentScene.name);
+    let save = data.map((el) => {
+      if (Array.isArray(el))
+        return el.map((ob) => {
+          return {
+            ...ob,
+            texture: {
+              ...ob.texture,
+              img: null,
+            },
+          };
+        });
+      return el.texture
+        ? {
+            ...el,
+            texture: {
+              ...el.texture,
+              img: null,
+            },
+          }
+        : el;
+    });
+    save = JSON.stringify(data);
+    localStorage.setItem("save", save);
+    console.log("Data saved");
+    this.dataLogged = true;
+  }
+
+  getScenefromStorage() {
+    let scene = localStorage.getItem("currentScene");
+    console.log(scene);
+    debugger;
+    if (scene) this.nextScene = scene;
+  }
+
+  checkForSavedProgress() {
+    let save = localStorage.getItem("save");
+    if (save) {
+      save = JSON.parse(save);
+      console.log(save);
+      save.forEach((el) => {});
+    }
   }
 }

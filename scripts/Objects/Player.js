@@ -155,12 +155,13 @@ export class Player extends GameObject {
     if (!this.bodyObject.isRunning) return;
     this.bodyObject.isRunning = false;
     this.movement.speed -= 2;
-    this.bodyObject.grow(Math.floor(this.bodyLength / 2) + 1);
-    for (let i = 0; i < this.body.length / 2.5; i++) this.bodyObject.renew();
+    this.bodyObject.grow(Math.floor(this.bodyLength / 2) + 1, this);
+    for (let i = 0; i < this.body.length / 2.5; i++)
+      this.bodyObject.renew(this);
   }
 
   grow() {
-    this.bodyObject.grow(20);
+    this.bodyObject.grow(20, this);
     this.status.maxHP += 2;
     this.status.currentHP += 2;
   }
@@ -207,5 +208,9 @@ export class Player extends GameObject {
           break;
       }
     }
+  }
+
+  update() {
+    this.bodyObject.update(this);
   }
 }

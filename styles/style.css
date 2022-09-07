@@ -4,6 +4,7 @@
 }
 
 body {
+    background-color: transparent;
     overflow: hidden;
 }
 
@@ -11,7 +12,7 @@ video {
     position: absolute;
     top: 0;
     left: 0;
-}   
+}  
 
 #start {
     position: absolute;

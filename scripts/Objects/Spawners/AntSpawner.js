@@ -28,7 +28,8 @@ export class AntSpawner extends Spawner {
             y: this.position.y + this.spawnRadius * Math.random(),
           },
           { name: this.texture.name, img: this.texture.img, sx: 0, sy: 0 },
-          this.path
+          this.path,
+          this.id
         )
       );
       this.previousSpawnTime = time;

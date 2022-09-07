@@ -3,12 +3,15 @@ import { Ant } from "../SmartObjects/Ant.js";
 
 export class Spawner extends GameObject {
   constructor({
+    name = "Default Spawner",
     interval = 50000,
     position = { x: 0, y: 0 },
     spawnRadius = 200,
     image = "",
   }) {
     super({
+      name,
+      id: `spawner_${name}_${position.x}${position.y}`,
       isDisplayed: false,
       position,
       type: "spawner",

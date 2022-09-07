@@ -2,6 +2,7 @@ import { VideoPlayer } from "../Objects/VideoPlayer.js";
 
 export class Video_001 {
   constructor() {
+    this.name = "Video_001";
     this.type = "video";
     this.objects = {};
     this.objects.videoPlayer = new VideoPlayer();

@@ -14,13 +14,13 @@ export class Screen {
     this.camera = new Camera();
     this.loader = new MediaLoader();
 
-     screen.orientation.onchange = () => {
-       screen.orientation.type !== "portrait-primary"
-         ? this.setSize({ width: window.outerWidth, height: window.outerHeight })
-         : this.setSize({
-             width: window.outerHeight,
-             height: window.outerWidth,
-           });
+    screen.orientation.onchange = () => {
+      screen.orientation.type !== "portrait-primary"
+        ? this.setSize({ width: window.outerWidth, height: window.outerHeight })
+        : this.setSize({
+            width: window.outerHeight,
+            height: window.outerWidth,
+          });
     };
   }
 
@@ -269,20 +269,20 @@ export class Screen {
     });
 
     //screen info
-     this.drawText({
-       font: "20px Arial",
-       color: "#000000",
-       x: this.width - 240,
-       y: 80,
-       text: `orientation angle: ${screen.orientation.angle}`,
-     });
-     this.drawText({
-       font: "20px Arial",
-       color: "#000000",
-       x: 50,
-       y: 100,
-       text: `orientation type: ${screen.orientation.type}`,
-     });
+    //  this.drawText({
+    //    font: "20px Arial",
+    //    color: "#000000",
+    //    x: this.width - 240,
+    //    y: 80,
+    //    text: `orientation angle: ${screen.orientation.angle}`,
+    //  });
+    //  this.drawText({
+    //    font: "20px Arial",
+    //    color: "#000000",
+    //    x: 50,
+    //    y: 100,
+    //    text: `orientation type: ${screen.orientation.type}`,
+    //  });
     // this.drawText({
     //   font: "20px Arial",
     //   color: "#000000",

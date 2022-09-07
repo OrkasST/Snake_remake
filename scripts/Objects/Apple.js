@@ -1,8 +1,9 @@
 import { GameObject } from "./GameObject.js";
 
 export class Apple extends GameObject {
-  constructor(position, texture) {
+  constructor(position, texture, id) {
     super({
+      id,
       name: "Apple",
       type: "apple",
       position,
