@@ -81,7 +81,10 @@ export class Game {
     }
     if (this.currentScene.type === "game") {
       this.menu.getParams(this.player.status);
-      if (this.player.status.currentHP <= 0) this.player.death();
+      if (this.player.status.currentHP <= 0) {
+        this.player.death();
+        this.save(this.data);
+      }
 
       this.collider.checkCollisions(data);
 
@@ -210,12 +213,13 @@ export class Game {
           break;
         case "button":
           this.player.modifyParameter(el[1], el[2]);
+          this.save(this.data);
           break;
         case "run":
           el[1] === "start" ? this.player.runStart() : this.player.runStop();
           break;
-        case "close":
-          this.close(this.data);
+        case "save":
+          this.save(this.data);
         default:
           break;
       }
@@ -272,8 +276,18 @@ export class Game {
           }
         }
         if (this.map) this.collider.setStaticObjects(this.map.hitboxes);
-        if (this.sceneList[this.nextScene].type === "game")
-          this.checkForSavedProgress();
+        if (this.sceneList[this.nextScene].type === "game") {
+          this.data.forEach((el) => {
+            if (
+              !Array.isArray(el) &&
+              // el.type !== "map_image" &&
+              !el.objectCreatingFunctionIsSet
+            ) {
+              el.setObjectCreatingFunction(this.createObject, this);
+            }
+          });
+          this.checkForSavedProgress(time);
+        }
         this.sceneList[this.nextScene].isPrepared = true;
       }
       this.sceneChange(time);
@@ -284,7 +298,7 @@ export class Game {
     if (object) this.data = [this.data[0], object, ...this.data.slice(1)];
   }
 
-  close(data) {
+  save(data) {
     localStorage.clear();
     localStorage.setItem("currentScene", this.currentScene.name);
     let save = data.map((el) => {
@@ -317,16 +331,35 @@ export class Game {
   getScenefromStorage() {
     let scene = localStorage.getItem("currentScene");
     console.log(scene);
-    debugger;
     if (scene) this.nextScene = scene;
   }
 
-  checkForSavedProgress() {
+  checkForSavedProgress(time) {
+    // try {
     let save = localStorage.getItem("save");
     if (save) {
       save = JSON.parse(save);
       console.log(save);
-      save.forEach((el) => {});
+      save.forEach((el) => {
+        if (Array.isArray(el)) return;
+        let id = el?.id?.split("_");
+        if (!id) debugger;
+        if (id[0] === "spawner") {
+          this[id[1]].spawn(time, el.position, true);
+          console.log(el.name + " created!");
+        }
+        if (el.type === "player") {
+          this.player.status = el.status;
+          this.player.movement = el.movement;
+          this.player.bodyObject.bodyLength = el.bodyObject.bodyLength;
+          // this.player.bodyLength = el.bodyLenght;
+          this.player.setLength(el.body.length);
+          this.player.moveTo(el.position);
+        }
+      });
     }
+    // } catch (e) {
+    // console.log(e);
+    // }
   }
 }

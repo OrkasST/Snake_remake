@@ -3,11 +3,12 @@ import { Spawner } from "./Spawner.js";
 
 export class AntSpawner extends Spawner {
   constructor({
+    name = "",
     interval = 5000,
     position = { x: 0, y: 0 },
     spawnRadius = 200,
   }) {
-    super({ interval, position, spawnRadius, image: "ant" });
+    super({ name, interval, position, spawnRadius, image: "ant" });
     this.path = [
       { x: 0, y: 0 },
       { x: 500, y: 30 },
@@ -16,14 +17,15 @@ export class AntSpawner extends Spawner {
     ];
   }
 
-  spawn(time) {
+  spawn(time, position, system) {
     if (
       time - this.previousSpawnTime >= this.interval ||
-      this.previousSpawnTime === 0
+      this.previousSpawnTime === 0 ||
+      system
     ) {
       this._createObject(
         new Ant(
-          {
+          position || {
             x: this.position.x + this.spawnRadius * Math.random(),
             y: this.position.y + this.spawnRadius * Math.random(),
           },

@@ -47,6 +47,13 @@
     right: 0;
 }
 
+#close {
+    position: absolute;
+    bottom: 7rem;
+    left: 5rem;
+    width: 7rem;
+    height: 3.3rem;
+}
 
 @media (max-width: 800px) {
     #menu nav {

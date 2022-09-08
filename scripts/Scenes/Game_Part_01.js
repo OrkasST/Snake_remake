@@ -23,19 +23,20 @@ export class Game_Part_001 {
       })
     );
     this.objects.playerSnake = this.objects.player.bodyObject;
-    this.objects.antSpawner = new AntSpawner({});
+    this.objects.antSpawner = new AntSpawner({ name: "antSpawner" });
     this.objects.appleSpawner = new AppleSpawner({
+      name: "appleSpawner",
       interval: 2000,
       position: { x: 1532, y: 1298 },
       spawnRadius: 800,
     });
     this.objects.magic = this.objects.player.classicMagicShotTexture;
     this.textures = {
-      "map-tiles": "/Snake_remake/images/tiles.png",
-      snake: "/Snake_remake/images/snake_10.png",
-      ant: "/Snake_remake/images/ant.png",
-      apple: "/Snake_remake/images/apple.png",
-      magic: "/Snake_remake/images/Magic_ball.png",
+      "map-tiles": "./../../images/tiles.png",
+      snake: "./../../images/snake_10.png",
+      ant: "./../../images/ant.png",
+      apple: "./../../images/apple.png",
+      magic: "./../../images/Magic_ball.png",
     };
   }
 

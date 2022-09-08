@@ -1,26 +1,24 @@
 import { Game } from "./Game.js";
 
-// document.addEventListener('click', () => {
-//     const Saper = new Game();
-//     console.log(Saper);
-//     Saper.init();
-// });
+let newGameBtn, continueBtn, startMenu;
 
 window.addEventListener("DOMContentLoaded", (event) => {
-  const startBtn = document.getElementById("start");
-  startBtn.addEventListener("click", (e) => {
-    document.documentElement
-      .requestFullscreen()
-      // .then(() => {
-      //   startBtn.classList.add("_hidden");
-      //   const Saper = new Game({});
-      //   Saper.init();
-      // })
-      .catch((e) => console.log(e));
-    startBtn.classList.add("_hidden");
-    const Saper = new Game({});
-    Saper.init();
-  });
+  newGameBtn = document.getElementById("newGame");
+  continueBtn = document.getElementById("continue");
+  startMenu = document.querySelector(".start_menu");
+
+  if (!localStorage.getItem("save")) continueBtn.disabled = true;
+
+  newGameBtn.addEventListener("click", (e) => start(true));
+  continueBtn.addEventListener("click", (e) => start(false));
 });
 
-document.addEventListener("click", (e) => console.log(e.target));
+// document.addEventListener("click", (e) => console.log(e.target));
+
+function start(deleteProgress) {
+  if (deleteProgress) localStorage.clear();
+  document.documentElement.requestFullscreen();
+  startMenu.classList.add("_hidden");
+  const Saper = new Game({});
+  Saper.init();
+}

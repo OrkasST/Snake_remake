@@ -109,9 +109,8 @@ export class Player extends GameObject {
 
   death() {
     this.runStop();
-    this.setPosition(this.spawnPoint.x, this.spawnPoint.y);
     this.body.splice(this.bodyObject.bodyLength);
-    this.body.forEach((el) => (el.position = this.spawnPoint));
+    this.moveTo({ x: this.spawnPoint.x, y: this.spawnPoint.y });
     this.status.points = 0;
     this.status.upgrades = 0;
     this.status.pointsToGrow = this._calculatePoints(this.status.level);
@@ -119,6 +118,11 @@ export class Player extends GameObject {
     this.status.currentHP = this.status.maxHP + 0;
     this.status.currentStamina = this.status.maxStamina + 0;
     console.log(this.body.length);
+  }
+
+  moveTo(position) {
+    this.setPosition(position.x, position.y);
+    this.body.forEach((el) => (el.position = position));
   }
 
   _calculatePoints(level) {
@@ -164,6 +168,11 @@ export class Player extends GameObject {
     this.bodyObject.grow(20, this);
     this.status.maxHP += 2;
     this.status.currentHP += 2;
+  }
+
+  setLength(length) {
+    this.body.splice(1);
+    this.bodyObject.grow(length - 1, this);
   }
 
   createMagic(time, magic) {

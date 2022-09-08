@@ -14,7 +14,7 @@ video {
     left: 0;
 }  
 
-#start {
+/* #start {
     position: absolute;
     width: 20vh;
     height: 10vh;
@@ -23,6 +23,22 @@ video {
     translate: -50% -50%;
     font-size: 5vh;
     z-index: 2;
+} */
+
+.start_menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.start_menu button {
+    margin-bottom: 5vh;
+    width: 20vh;
+    height: 10vh;
 }
 
 @media only screen and (orientation:portrait) {
