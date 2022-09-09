@@ -80,6 +80,14 @@ export class Game {
       }
     }
     if (this.currentScene.type === "game") {
+      // if (this.screen.width < 1000) {
+      //   data.forEach((el) => {
+      //     if (Array.isArray(el)) {
+      //       return el.forEach((item) => item.setScale(0.5));
+      //     }
+      //     el.setScale(0.5);
+      //   });
+      // }
       this.menu.getParams(this.player.status);
       if (this.player.status.currentHP <= 0) {
         this.player.death();

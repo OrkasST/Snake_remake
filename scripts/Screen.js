@@ -56,6 +56,8 @@ export class Screen {
           y,
           texture.width ? texture.width : width,
           texture.height ? texture.height : height
+          // width,
+          // height
         )
       : this.ctx.fillRect(x, y, width, height);
     this.ctx.closePath();

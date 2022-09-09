@@ -149,4 +149,10 @@ export class GameObject {
       ? this.status.maxHP
       : this.status.currentHP + HP;
   }
+
+  setScale(scale) {
+    this.position.x *= scale;
+    this.position.y *= scale;
+    this.movement.speed *= scale;
+  }
 }
