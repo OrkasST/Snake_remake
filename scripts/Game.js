@@ -226,7 +226,7 @@ export class Game {
         case "run":
           el[1] === "start" ? this.player.runStart() : this.player.runStop();
           break;
-        case "save":
+        case "close":
           this.save(this.data);
         default:
           break;

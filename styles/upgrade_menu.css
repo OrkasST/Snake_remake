@@ -71,3 +71,11 @@
         height: 2rem;
     }
 }
+
+@media only screen and (orientation:portrait) {
+    #menu {
+        width: 50vh;
+        height: 70vw;
+        transform: translate(0, -50%);
+    }
+}

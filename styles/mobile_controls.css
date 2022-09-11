@@ -297,6 +297,48 @@
         border: solid 1px #979797;
     }
 
+
+    .magic_buttons {
+        position: absolute;
+        width: 20vw;
+        height: 20vw;
+
+        top: 40%;
+        right: 5vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .magic_buttons button {
+        margin-top: 10%;
+        width: 4vw;
+        height: 4vw;
+        background: radial-gradient(circle,
+            rgba(230,233,255,1) 0%, 
+            rgba(96,109,227,0.9) 21%, 
+            rgba(52,68,203,1) 36%, 
+            rgba(255,255,255,0.1) 69%, 
+            rgba(255,255,255,0) 100%
+        );
+        border: 1px solid #979797;
+        border-radius: 50%;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @media only screen and (orientation:portrait) {
         .mobile_controls {
             width: 100vh;
@@ -323,7 +365,7 @@
             bottom: 20vw;
             width: 17vw;
             height: 17vw;
-            right: 10vw;
+            right: 25vw;
         }
     
         #toggle_menu {
@@ -331,6 +373,16 @@
             right: 4vw;
             height: 7vw;
             width: 10vw;
+        }
+
+        .magic_buttons {
+            width: 30vh;
+            height: 20vh;
+            right: 5vh;
+        }
+        .magic_buttons button {
+            width: 3vh;
+            height: 3vh;
         }
     }
 

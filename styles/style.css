@@ -42,12 +42,15 @@ video {
 }
 
 @media only screen and (orientation:portrait) {
-    #start {
+    .start_menu {
+        top: 50%;
+        right: -50%;
+        transform: translate(0, -50%);
+    }
+    .start_menu button {
+        margin-bottom: 5vw;
         width: 20vw;
         height: 10vw;
-        font-size: 5vw;
-        top: 50%;
-        right: 0;
     }
 }
 
