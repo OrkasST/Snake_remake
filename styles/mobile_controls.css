@@ -301,17 +301,19 @@
     .magic_buttons {
         position: absolute;
         width: 20vw;
-        height: 20vw;
+        height: 5vw;
 
         top: 40%;
         right: 5vw;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+
+        /* border: 1px solid #000; */
     }
 
     .magic_buttons button {
-        margin-top: 10%;
+        margin-top: 2%;
         width: 4vw;
         height: 4vw;
         background: radial-gradient(circle,
@@ -376,8 +378,8 @@
         }
 
         .magic_buttons {
-            width: 30vh;
-            height: 20vh;
+            width: 20vh;
+            height: 5vh;
             right: 5vh;
         }
         .magic_buttons button {

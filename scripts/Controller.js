@@ -49,10 +49,13 @@ export class Controller {
           break;
         case "close":
           this.actionList.push("close");
+          break;
         case "magic_1":
           this.actionList.push("create_magic_ball");
+          break;
         case "magic_2":
           this.actionList.push("create_fast_magic_ball");
+          break;
         default:
           break;
       }
