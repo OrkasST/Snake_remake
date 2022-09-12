@@ -116,7 +116,7 @@ export class Game {
           // this[el[0].name].update(this.player);
           return;
         }
-        if (el.type === "spawner") el.spawn(time);
+        if (el.type === "spawner") el.spawn({ time });
         el.update?.(time);
         if (el.movement.disabled === "all") return;
         switch (el.movement.status) {
@@ -157,7 +157,11 @@ export class Game {
         }
       }
       souls.forEach((soul) =>
-        this.soulSpawner.spawn(soul[0], soul[1], this.player.id)
+        this.soulSpawner.spawn({
+          position: soul[0],
+          points: soul[1],
+          id: this.player.id,
+        })
       );
       this.screen.camera.setFocus(this.player);
     }
@@ -375,12 +379,12 @@ export class Game {
           // console.log(el);
           // debugger;
           this[id[1]].spawn({
-            time, 
-            position: el.position, 
-            system: true, 
-            params: el.AI, 
-            points: el.status.maxHP, 
-            id: el.id
+            time,
+            position: el.position,
+            system: true,
+            params: el.AI,
+            points: el.status.maxHP,
+            id: el.id,
           });
         }
         if (el.type === "player") {
