@@ -12,7 +12,7 @@ export class SoulSpawner extends Spawner {
     super({ type, name, interval, position, spawnRadius, image: "soul" });
   }
 
-  spawn(position, points = 2, id) {
+  spawn({position, points = 2, id}) {
     this._createObject(
       new Soul(
         position,

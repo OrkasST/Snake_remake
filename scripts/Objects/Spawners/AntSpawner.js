@@ -17,7 +17,7 @@ export class AntSpawner extends Spawner {
     ];
   }
 
-  spawn(time, position, system, params) {
+  spawn({time, position, system, params}) {
     if (
       time - this.previousSpawnTime >= this.interval ||
       this.previousSpawnTime === 0 ||

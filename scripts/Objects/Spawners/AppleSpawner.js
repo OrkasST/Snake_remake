@@ -12,7 +12,7 @@ export class AppleSpawner extends Spawner {
     this.applesAmmount = 0;
     this.spawnLimit = 50;
   }
-  spawn(time, position, system) {
+  spawn({time, position, system}) {
     if (time - this.previousSpawnTime >= this.interval * 1000)
       this.apples.applesAmmount = 0;
     if (

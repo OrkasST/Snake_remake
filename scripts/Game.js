@@ -374,11 +374,19 @@ export class Game {
         if (id[0] === "spawner") {
           // console.log(el);
           // debugger;
-          this[id[1]].spawn(time, el.position, true, el.AI);
+          this[id[1]].spawn({
+            time, 
+            position: el.position, 
+            system: true, 
+            params: el.AI, 
+            points: el.status.maxHP, 
+            id: el.id
+          });
         }
         if (el.type === "player") {
           this.player.status = el.status;
           this.player.movement = el.movement;
+          this.player.spellList = el.spellList;
           this.player.bodyObject.bodyLength = el.bodyObject.bodyLength;
           // this.player.bodyLength = el.bodyLenght;
           this.player.setLength(el.body.length);
