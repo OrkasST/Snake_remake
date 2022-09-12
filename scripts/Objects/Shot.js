@@ -2,6 +2,8 @@ import { GameObject } from "./GameObject.js";
 
 export class Shot extends GameObject {
   constructor({
+    id = "",
+    name = "",
     position = { x, y },
     size = {
       width: 20,
@@ -23,7 +25,8 @@ export class Shot extends GameObject {
     texture = null,
   }) {
     super({
-      name: "shot",
+      id,
+      name,
       type: "shot",
       size,
       position,
@@ -35,7 +38,7 @@ export class Shot extends GameObject {
         status: "moving",
         disabledX: "none",
         disabledY: "none",
-        direction,
+        direction: "none",
         previousDirection: "none",
         speed,
       },
@@ -45,7 +48,11 @@ export class Shot extends GameObject {
     });
   }
 
-  onCollision() {
-    this.destroy();
+  release(direction) {
+    this.movement.direction = direction;
+  }
+
+  onCollision(object) {
+    if (this.id !== object.id) this.destroy();
   }
 }

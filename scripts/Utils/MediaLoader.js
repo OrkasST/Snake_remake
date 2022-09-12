@@ -13,7 +13,7 @@ export class MediaLoader {
   }
 
   loadMedia() {
-    console.log("Media loading started...");
+    // console.log("Media loading started...");
     for (let name in this.mediaToLoad) {
       this.promises.push(this.load(name, this.mediaToLoad[name]));
     }
@@ -29,7 +29,7 @@ export class MediaLoader {
         ? (img.oncanplaythrough = () => resolve(name))
         : (img.onload = () => resolve(name));
       img.onerror = (error) => reject(error);
-      console.log(window.location.origin + src);
+      // console.log(window.location.origin + src);
       img.src = src;
     });
   }

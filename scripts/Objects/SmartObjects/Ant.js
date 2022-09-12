@@ -1,7 +1,20 @@
 import { GameObject } from "../GameObject.js";
 
 export class Ant extends GameObject {
-  constructor(position = { x: 0, y: 0 }, texture, path, id) {
+  constructor(
+    position = { x: 0, y: 0 },
+    texture,
+    path,
+    id,
+    params = {
+      isPathClosed: null,
+      localPathIsCreated: null,
+      step: null,
+      stepsCount: null,
+      _localPath: null,
+      _localStep: null,
+    }
+  ) {
     super({
       id,
       name: "ant",
@@ -24,8 +37,14 @@ export class Ant extends GameObject {
         physicalAttack: 1,
       },
     });
-    // this.AI.setMe(this);
     this.AI.setPath(path);
+    if (params) {
+      this.AI.setPath(path, params.isPathClosed);
+      this.AI.setLocalPath(params._localPath, params.localPathIsCreated);
+      this.AI.setStep(params.step);
+      this.AI.setStepsCount(params.stepsCount);
+      this.AI.setLocalStep(params._localStep);
+    }
   }
 
   update(time) {

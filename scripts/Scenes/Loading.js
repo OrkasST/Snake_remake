@@ -54,7 +54,7 @@ export class Loading extends Scene {
           });
 
         Promise.all(connections).then(() => {
-          console.log("Process Finished");
+          // console.log("Process Finished");
           this.loadingIsFinished = true;
         });
       },

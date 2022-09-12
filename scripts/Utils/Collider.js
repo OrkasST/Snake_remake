@@ -67,7 +67,11 @@ export class Collider {
   }
 
   _checkCorner(body, object) {
-    // if ((body.type === "shot" || object.type === "shot") && (body.type === "shot" || object.type === "shot")) return;
+    if (
+      (body.type === "shot" || object.type === "shot") &&
+      body.id === object.id
+    )
+      return;
     if (
       body.position.y + body.size.height > object.y2 ||
       body.position.y + body.size.height >

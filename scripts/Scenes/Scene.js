@@ -39,12 +39,12 @@ export class Scene {
   }
 
   setStartTime(time) {
-    console.group("Set Start Time");
-    console.log("start time set");
-    console.log("time: ", time);
+    // console.group("Set Start Time");
+    // console.log("start time set");
+    // console.log("time: ", time);
     this.startTime = time || 0;
-    console.log("startTime: ", this.startTime);
-    console.groupEnd();
+    // console.log("startTime: ", this.startTime);
+    // console.groupEnd();
   }
 
   setData(data) {

@@ -314,8 +314,8 @@
 
     .magic_buttons button {
         margin-top: 2%;
-        width: 4vw;
-        height: 4vw;
+        width: 5vw;
+        height: 5vw;
         background: radial-gradient(circle,
             rgba(230,233,255,1) 0%, 
             rgba(96,109,227,0.9) 21%, 
@@ -383,9 +383,13 @@
             right: 5vh;
         }
         .magic_buttons button {
-            width: 3vh;
-            height: 3vh;
+            width: 5vh;
+            height: 5vh;
         }
     }
 
+}
+
+._touched {
+    transform: scale(1.2);
 }

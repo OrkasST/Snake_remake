@@ -20,6 +20,7 @@ export class Game_Part_001 {
         head: this.objects.player,
         bodyLength: 65,
         name: "playerSnake",
+        id: this.objects.player.id,
       })
     );
     this.objects.playerSnake = this.objects.player.bodyObject;

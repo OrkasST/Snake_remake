@@ -17,7 +17,7 @@ export class AntSpawner extends Spawner {
     ];
   }
 
-  spawn(time, position, system) {
+  spawn(time, position, system, params) {
     if (
       time - this.previousSpawnTime >= this.interval ||
       this.previousSpawnTime === 0 ||
@@ -31,7 +31,8 @@ export class AntSpawner extends Spawner {
           },
           { name: this.texture.name, img: this.texture.img, sx: 0, sy: 0 },
           this.path,
-          this.id
+          this.id,
+          params
         )
       );
       this.previousSpawnTime = time;

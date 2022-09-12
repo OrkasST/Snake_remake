@@ -14,12 +14,26 @@ export class AI {
 
   setMe(me) {
     this.me = me;
-    // console.log("Me set");
   }
 
-  setPath(path) {
+  setPath(path, isClosed) {
+    this.isPathClosed = isClosed;
     this.path = path;
     // console.log("Path set");
+  }
+
+  setStep(step) {
+    this.step = step;
+  }
+  setStepsCount(count) {
+    this.stepsCount = count;
+  }
+  setLocalPath(path, isCreated) {
+    this._localPath = path;
+    this.localPathIsCreated = isCreated;
+  }
+  setLocalStep(step) {
+    this._localStep = step;
   }
 
   followPath(me) {

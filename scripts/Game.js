@@ -29,6 +29,8 @@ export class Game {
       { type: "keyup", code: "ShiftLeft", action: "run_stop" },
 
       { type: "keydown", code: "KeyQ", action: "create_magic_ball" },
+      { type: "keyup", code: "KeyQ", action: "release_magic_ball" },
+
       { type: "keydown", code: "KeyE", action: "create_fast_magic_ball" },
       { type: "keydown", code: "KeyI", action: "upgrade_menu" },
     ]);
@@ -88,7 +90,10 @@ export class Game {
       //     el.setScale(0.5);
       //   });
       // }
-      this.menu.getParams(this.player.status);
+      this.menu.getParams(this.player.status, [
+        this.player.spellList.magic_ball,
+        this.player.spellList.fast_magic_ball,
+      ]);
       if (this.player.status.currentHP <= 0) {
         this.player.death();
         this.save(this.data);
@@ -112,7 +117,7 @@ export class Game {
           return;
         }
         if (el.type === "spawner") el.spawn(time);
-        el.update?.();
+        el.update?.(time);
         if (el.movement.disabled === "all") return;
         switch (el.movement.status) {
           case "standing":
@@ -127,7 +132,6 @@ export class Game {
 
       if (this.player.bodyObject.isRunning) {
         this.player.status.currentStamina--;
-        console.log("stamina: " + this.player.status.currentStamina);
         if (this.player.status.currentStamina < 1) this.player.runStop();
       } else if (
         this.player.status.currentStamina < this.player.status.maxStamina &&
@@ -136,10 +140,8 @@ export class Game {
       ) {
         this.player.lastStaminaRecoveryTime = time;
         this.player.status.currentStamina++;
-        console.log("stamina: " + this.player.status.currentStamina);
       }
 
-      // debugger;
       for (let j = 0; j < data.length; j++) {
         if (!Array.isArray(data[j]) && data[j].isInOrderToDestroy)
           data.splice(j, 1);
@@ -205,7 +207,6 @@ export class Game {
       switch (el[0]) {
         case "move":
           if (this[el[1]].movement.disabled === "all") return;
-          // console.log(this[el[1]].movement);
           this[el[1]].movement.status = "moving";
           this[el[1]].movement.direction = el[2];
           this.log = true;
@@ -214,7 +215,11 @@ export class Game {
           this.player.movement.status = "standing";
           break;
         case "create":
-          this.player.createMagic(time, el.splice(1).join("_"));
+          if (!this.player.isCreatingMagic)
+            this.player.createMagic(time, el.splice(1).join("_"));
+          break;
+        case "release":
+          if (this.player.isCreatingMagic) this.player.releaseMagic(time);
           break;
         case "upgrade":
           this.menu.toggleMenu();
@@ -242,7 +247,7 @@ export class Game {
   }
 
   prepareScene(time) {
-    console.log("Started preparing scene...");
+    // console.log("Started preparing scene...");
     this.currentScene = new Loading({
       loadList: this.sceneList[this.nextScene].textures,
     });
@@ -304,6 +309,7 @@ export class Game {
 
   createObject(object) {
     if (object) this.data = [this.data[0], object, ...this.data.slice(1)];
+    return object;
   }
 
   save(data) {
@@ -332,13 +338,13 @@ export class Game {
     });
     save = JSON.stringify(data);
     localStorage.setItem("save", save);
-    console.log("Data saved");
+    // console.log("Data saved");
     this.dataLogged = true;
   }
 
   getScenefromStorage() {
     let scene = localStorage.getItem("currentScene");
-    console.log(scene);
+    // console.log(scene);
     if (scene) this.nextScene = scene;
   }
 
@@ -347,14 +353,15 @@ export class Game {
     let save = localStorage.getItem("save");
     if (save) {
       save = JSON.parse(save);
-      console.log(save);
+      // console.log(save);
       save.forEach((el) => {
         if (Array.isArray(el)) return;
         let id = el?.id?.split("_");
         if (!id) debugger;
         if (id[0] === "spawner") {
-          this[id[1]].spawn(time, el.position, true);
-          console.log(el.name + " created!");
+          // console.log(el);
+          // debugger;
+          this[id[1]].spawn(time, el.position, true, el.AI);
         }
         if (el.type === "player") {
           this.player.status = el.status;

@@ -1,11 +1,18 @@
 import { GameObject } from "./GameObject.js";
 
 export class SnakeBody {
-  constructor({ head = {}, bodyLength = 10, name = "", imageName = "snake" }) {
+  constructor({
+    head = {},
+    bodyLength = 10,
+    name = "",
+    imageName = "snake",
+    id = "",
+  }) {
     this.type = "snake";
     // this.head = head;
     this.bodyLength = bodyLength;
     this.name = name;
+    this.id = id;
     this.texture = { name: "snake", img: null };
     this.directionCodes = {
       left: 0,
@@ -39,6 +46,7 @@ export class SnakeBody {
         new GameObject({
           name: name,
           type: "snake-body-part",
+          id: this.id,
           position: {
             x: head.position.x + head.movement.speed * i,
             y: head.position.y,
@@ -105,6 +113,7 @@ export class SnakeBody {
       new GameObject({
         name: this.name,
         type: "snake-body-part",
+        id: this.id,
         position: {
           x: head.position.x,
           y: head.position.y,

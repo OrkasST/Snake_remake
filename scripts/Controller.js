@@ -15,9 +15,12 @@ export class Controller {
       this.modifyActionList(e);
     });
     document.addEventListener("touchstart", (e) => {
+      if (e.target.localName === "button") e.target.classList.add("_touched");
       this.modifyActionList(e);
     });
     document.addEventListener("touchend", (e) => {
+      if (e.target.localName === "button")
+        e.target.classList.remove("_touched");
       this.modifyActionList(e);
     });
   }
@@ -50,19 +53,25 @@ export class Controller {
         case "close":
           this.actionList.push("close");
           break;
-        case "magic_1":
-          this.actionList.push("create_magic_ball");
-          break;
-        case "magic_2":
-          this.actionList.push("create_fast_magic_ball");
-          break;
+        // case "magic_1":
+        //   this.actionList.push("create_magic_ball");
+        //   break;
+        // case "magic_2":
+        //   this.actionList.push("create_fast_magic_ball");
+        //   break;
         default:
           break;
       }
     } else if (e.type === "touchstart") {
       if (e.target.id === "run") this.actionList.push("run_start");
+      if (e.target.id === "magic_1") this.actionList.push("create_magic_ball");
+      if (e.target.id === "magic_2")
+        this.actionList.push("create_fast_magic_ball");
     } else if (e.type === "touchend") {
       if (e.target.id === "run") this.actionList.push("run_stop");
+      if (e.target.id === "magic_1") this.actionList.push("release_magic_ball");
+      if (e.target.id === "magic_2")
+        this.actionList.push("release_fast_magic_ball");
     }
     this.codeList.forEach((el) => {
       if (el.code == e.code && el.type == e.type) {

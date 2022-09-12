@@ -15,13 +15,16 @@ export class GameObject {
       maxMP: 0,
       currentMP: 0,
       defence: 0,
-      // attack: 0,
       physicalAttack: 0,
       magicAttack: 0,
       points: 0,
       pointsToGrow: 12,
       upgrades: 0,
       level: 1,
+      size: 0,
+      maxStamina: 100,
+      currentStamina: 100,
+      control: 1,
     },
     movement = {
       status: "standing",
@@ -89,6 +92,8 @@ export class GameObject {
     this.isUnderAttack = false;
     this.isDamaging = isDamaging;
     this.isAbleToGrow = isAbleToGrow;
+    this.isCreatingMagic = false;
+    this.currentSpell = {};
   }
   imageLoaded() {}
   destroy() {
@@ -98,14 +103,16 @@ export class GameObject {
     this.status.currentHP -=
       damage - this.status.defence > 0 ? damage - this.status.defence : 0;
     if (this.status.currentHP <= 0) {
-      let pointsToGive = this.status.maxHP;
-      object.status.currentHP = object.raiseHP(
-        Math.floor(pointsToGive / 2) || 1
-      );
-      object.raisePoints(Math.floor(pointsToGive / 1.2) || 1);
-      object.status.currentMP = object.raiseMP(
-        Math.floor(pointsToGive / 3) || 1
-      );
+      if (object) {
+        let pointsToGive = this.status.maxHP;
+        object.status.currentHP = object.raiseHP(
+          Math.floor(pointsToGive / 2) || 1
+        );
+        object.raisePoints(Math.floor(pointsToGive / 1.2) || 1);
+        object.status.currentMP = object.raiseMP(
+          Math.floor(pointsToGive / 3) || 1
+        );
+      }
       this.destroy();
     }
   }
@@ -120,7 +127,8 @@ export class GameObject {
         ? object.status?.magicAttack
         : object.status?.physicalAttack
       : null;
-    if (this.isDestructive && damage) this._recalculateHP(damage, object);
+    if (this.isDestructive && damage && this.id !== object.id)
+      this._recalculateHP(damage, object);
     if (this.AIType) this.AI.handleCollision();
   }
 
@@ -154,5 +162,16 @@ export class GameObject {
     this.position.x *= scale;
     this.position.y *= scale;
     this.movement.speed *= scale;
+  }
+
+  modifyParameter(parameter, modifier) {
+    if (this.status.upgrades < this.cost[parameter]) return;
+    modifier === "+"
+      ? this.status[this.parms[parameter]]++
+      : this.status[this.parms[parameter]]--;
+    this.status.upgrades -= this.cost[parameter];
+    this.status.maxHP -= 2;
+    this.status.currentHP -= 2;
+    this.status.level++;
   }
 }

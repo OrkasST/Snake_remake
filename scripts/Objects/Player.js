@@ -8,6 +8,7 @@ export class Player extends GameObject {
   constructor({
     name = "Player",
     type = "player",
+    id = "player_01",
     position = {
       x: 0,
       y: 0,
@@ -18,9 +19,8 @@ export class Player extends GameObject {
       maxMP: 3,
       currentMP: 3,
       defence: 0,
-      // attack: 1,
       physicalAttack: 1,
-      magicAttack: 3,
+      control: 0,
       points: 0,
       pointsToGrow: 2,
       upgrades: 0,
@@ -53,6 +53,7 @@ export class Player extends GameObject {
     super({
       name,
       type,
+      id,
       position,
       status,
       movement,
@@ -74,23 +75,49 @@ export class Player extends GameObject {
           sy: 0,
         },
       ],
-      [
-        "imageLoaded",
-        () => {
-          console.log(this.classicMagicShotTexture);
-        },
-      ],
+      ["imageLoaded", () => {}],
     ]);
-    this.cost = { defence: 1, attack: 1, magic: 1, size: 1, resurrections: 3 };
+    this.cost = {
+      defence: 1,
+      attack: 1,
+      magic: 1,
+      control: 1,
+      size: 1,
+      resurrections: 3,
+    };
     this.parms = {
       defence: "defence",
       attack: "physicalAttack",
-      magic: "magicAttack",
+      magic: "maxMP",
+      control: "control",
       size: "size",
       resurrections: "resurrections",
     };
     this.lastStaminaRecoveryTime = 0;
     this.staminaRecoverySpeed = 100; // 1 point in 500 ms
+
+    this.spellList = {
+      magic_ball: {
+        params: {
+          speed: 4,
+          attackMultiplier: 0,
+        },
+        cost: 1,
+        control: 0,
+        experiance: 0,
+        needToUpdate: 10,
+      },
+      fast_magic_ball: {
+        params: {
+          speed: 12,
+          attackMultiplier: 0,
+        },
+        cost: 3,
+        control: 0,
+        experiance: 0,
+        needToUpdate: 10,
+      },
+    };
   }
 
   setBody(bodyObject) {
@@ -117,7 +144,6 @@ export class Player extends GameObject {
     this.status.maxHP = 10 + this.status.size * 2;
     this.status.currentHP = this.status.maxHP + 0;
     this.status.currentStamina = this.status.maxStamina + 0;
-    console.log(this.body.length);
   }
 
   moveTo(position) {
@@ -145,6 +171,7 @@ export class Player extends GameObject {
       this.status.maxHP -= 2;
       this.status.currentHP -= 2;
     }
+    if (parameter === "magic") this.status.currentMP = this.status.maxMP;
     this.status.level++;
   }
 
@@ -176,50 +203,105 @@ export class Player extends GameObject {
   }
 
   createMagic(time, magic) {
-    console.log(magic);
     if (
       this.status.currentMP >= 1 &&
       (time - this.lastMagicCreatedTime > this.magicCooldown ||
         this.lastMagicCreatedTime === 0)
     ) {
-      this.status.currentMP -= 1;
+      this.status.currentMP -= this.spellList[magic].cost;
+      this.isCreatingMagic = true;
       this.lastMagicCreatedTime = time;
       let data = {
-        position: {
-          x:
-            Math.floor(this.position.x + this.size.width / 2) -
-            32 -
-            (this.movement.direction === "left"
-              ? 64
-              : this.movement.direction === "right"
-              ? -64
-              : 0),
-          y:
-            Math.floor(this.position.y + this.size.height / 2) -
-            32 -
-            (this.movement.direction === "up"
-              ? 64
-              : this.movement.direction === "down"
-              ? -64
-              : 0),
-        },
+        id: this.id,
+        name: magic,
+        position: this._setMagicPosition(),
         size: { width: 64, height: 64 },
         texture: this.classicMagicShotTexture.texture,
-        direction: this.movement.direction,
-        attackMultiplier: this.status.magicAttack,
+        time,
+        ...this.spellList[magic].params,
       };
-      switch (magic) {
-        case "magic_ball":
-          this._createObject(new MagicBall(data));
-          break;
-        case "fast_magic_ball":
-          this._createObject(new FastMagicBall(data));
-          break;
-      }
+      this.currentSpell = this._createObject(new MagicBall(data));
+      // switch (magic) {
+      //   case "magic_ball":
+      //     this.currentSpell = this._createObject(new MagicBall(data));
+      //     break;
+      //   case "fast_magic_ball":
+      //     this.currentSpell = this._createObject(new FastMagicBall(data));
+      //     break;
+      // }
     }
   }
 
-  update() {
+  _setMagicPosition() {
+    return {
+      x:
+        Math.floor(this.position.x + this.size.width / 2) -
+        32 -
+        (this.movement.direction === "left"
+          ? 64
+          : this.movement.direction === "right"
+          ? -64
+          : 0),
+      y:
+        Math.floor(this.position.y + this.size.height / 2) -
+        32 -
+        (this.movement.direction === "up"
+          ? 64
+          : this.movement.direction === "down"
+          ? -64
+          : 0),
+    };
+  }
+
+  releaseMagic(time) {
+    this.isCreatingMagic = false;
+    this.lastMagicCreatedTime = time;
+    this.setSpellEXP(this.currentSpell.name);
+    this.currentSpell.release(this.movement.direction, time);
+    this.currentSpell = null;
+  }
+
+  update(time) {
     this.bodyObject.update(this);
+    if (this.isCreatingMagic) {
+      if (
+        this.status.control + this.spellList[this.currentSpell.name].control >
+        10
+      )
+        this.currentSpell.position = this._setMagicPosition();
+      else this.movement.status = "standing";
+    }
+
+    if (
+      this.isCreatingMagic &&
+      time - this.lastMagicCreatedTime > 500 &&
+      time - this.currentSpell.updateTime > 500 &&
+      this.status.currentMP >= 1
+    ) {
+      if (
+        this.currentSpell.upgrades >=
+        this.status.control + this.spellList[this.currentSpell.name].control
+      ) {
+        this.isCreatingMagic = false;
+        this.lastMagicCreatedTime = time;
+        this._recalculateHP(this.currentSpell.upgrades);
+        this.currentSpell.destroy();
+        this.currentSpell = null;
+        return;
+      }
+      this.status.currentMP--;
+      this.currentSpell.upgrade(time);
+    } else if (this.isCreatingMagic && this.status.currentMP <= 0)
+      this.releaseMagic(time);
+  }
+
+  setSpellEXP(name) {
+    let spell = this.spellList[name];
+    spell.experiance++;
+    if (spell.experiance === spell.needToUpdate) {
+      spell.experiance = 0;
+      spell.control++;
+      spell.needToUpdate = Math.floor(spell.needToUpdate * 1.2);
+    }
   }
 }
