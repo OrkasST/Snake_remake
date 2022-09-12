@@ -141,11 +141,24 @@ export class Game {
         this.player.lastStaminaRecoveryTime = time;
         this.player.status.currentStamina++;
       }
-
+      let souls = [];
       for (let j = 0; j < data.length; j++) {
-        if (!Array.isArray(data[j]) && data[j].isInOrderToDestroy)
+        if (!Array.isArray(data[j]) && data[j].isInOrderToDestroy) {
+          // if (data[j].isAlive)
+          // this.soulSpawner.spawn(data[j].position, data[j].status.maxHP);
+          // debugger;
+          if (
+            data[j].type !== "soul" &&
+            data[j].killedBy === "shot" &&
+            data[j].isAlive
+          )
+            souls.push([data[j].position, data[j].status.maxHP]);
           data.splice(j, 1);
+        }
       }
+      souls.forEach((soul) =>
+        this.soulSpawner.spawn(soul[0], soul[1], this.player.id)
+      );
       this.screen.camera.setFocus(this.player);
     }
     this.updateScene(time);

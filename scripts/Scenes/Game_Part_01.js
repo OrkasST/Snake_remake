@@ -2,6 +2,7 @@ import { Player } from "../Objects/Player.js";
 import { SnakeBody } from "../Objects/SnakeBody.js";
 import { AntSpawner } from "../Objects/Spawners/AntSpawner.js";
 import { AppleSpawner } from "../Objects/Spawners/AppleSpawner.js";
+import { SoulSpawner } from "../Objects/Spawners/SoulSpawner.js";
 import { Map } from "../Utils/Map.js";
 
 export class Game_Part_001 {
@@ -31,6 +32,7 @@ export class Game_Part_001 {
       position: { x: 1532, y: 1298 },
       spawnRadius: 800,
     });
+    this.objects.soulSpawner = new SoulSpawner({});
     this.objects.magic = this.objects.player.classicMagicShotTexture;
     this.textures = {
       "map-tiles": "/Snake_remake/images/tiles.png",
@@ -38,6 +40,7 @@ export class Game_Part_001 {
       ant: "/Snake_remake/images/ant.png",
       apple: "/Snake_remake/images/apple.png",
       magic: "/Snake_remake/images/Magic_ball.png",
+      soul: "/Snake_remake/images/Soul.png",
     };
   }
 
@@ -54,6 +57,7 @@ export class Game_Part_001 {
 //   ant: "/Snake_remake/images/ant.png",
 //   apple: "/Snake_remake/images/apple.png",
 //   magic: "/Snake_remake/images/Magic_ball.png",
+//   soul: "/Snake_remake/images/Soul.png",
 // };
 
 // for pc
@@ -63,4 +67,5 @@ export class Game_Part_001 {
 //   ant: "./../../images/ant.png",
 //   apple: "./../../images/apple.png",
 //   magic: "./../../images/Magic_ball.png",
+//   soul: "./../../images/Soul.png",
 // };

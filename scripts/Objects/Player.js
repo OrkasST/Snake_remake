@@ -270,6 +270,12 @@ export class Player extends GameObject {
       )
         this.currentSpell.position = this._setMagicPosition();
       else this.movement.status = "standing";
+
+      if (this.currentSpell.isInOrderToDestroy) {
+        this.isCreatingMagic = false;
+        this.currentSpell = null;
+        this.lastMagicCreatedTime = time;
+      }
     }
 
     if (
@@ -284,7 +290,10 @@ export class Player extends GameObject {
       ) {
         this.isCreatingMagic = false;
         this.lastMagicCreatedTime = time;
-        this._recalculateHP(this.currentSpell.upgrades);
+        this._recalculateHP(
+          this.currentSpell.status.magicAttack + this.currentSpell.upgrades
+        );
+        this.status.currentMP--;
         this.currentSpell.destroy();
         this.currentSpell = null;
         return;

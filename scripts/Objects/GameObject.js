@@ -94,9 +94,11 @@ export class GameObject {
     this.isAbleToGrow = isAbleToGrow;
     this.isCreatingMagic = false;
     this.currentSpell = {};
+    this.killedBy = "";
   }
   imageLoaded() {}
-  destroy() {
+  destroy(enemy) {
+    if (enemy) this.killedBy = enemy;
     this.isInOrderToDestroy = true;
   }
   _recalculateHP(damage, object) {
@@ -113,7 +115,7 @@ export class GameObject {
           Math.floor(pointsToGive / 3) || 1
         );
       }
-      this.destroy();
+      this.destroy(object?.type);
     }
   }
   setObjectCreatingFunction(callback, caller) {
