@@ -375,7 +375,7 @@ export class Game {
         if (Array.isArray(el)) return;
         let id = el?.id?.split("_");
         if (!id) debugger;
-        if (id[0] === "spawner") {
+        if (id[0] === "spawner" || el.type === "soul") {
           // console.log(el);
           // debugger;
           this[id[1]].spawn({
