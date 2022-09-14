@@ -378,7 +378,7 @@ export class Game {
         if (id[0] === "spawner" || el.type === "soul") {
           // console.log(el);
           // debugger;
-          this[id[1]].spawn({
+          this[el.type === "soul" ? "soulSpawner" : id[1]].spawn({
             time,
             position: el.position,
             system: true,
