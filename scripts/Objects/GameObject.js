@@ -95,6 +95,8 @@ export class GameObject {
     this.isCreatingMagic = false;
     this.currentSpell = {};
     this.killedBy = "";
+
+    this.isScaled = false;
   }
   imageLoaded() {}
   destroy(enemy) {
@@ -175,5 +177,27 @@ export class GameObject {
     this.status.maxHP -= 2;
     this.status.currentHP -= 2;
     this.status.level++;
+  }
+
+  setScale(scale) {
+    if (this.type !== "shot") {
+      this.position.x *= scale;
+      this.position.y *= scale;
+    }
+    if (this.texture) {
+      this.texture.width = this.size.width;
+      this.texture.height = this.size.height;
+    } else debugger;
+
+    this.size.width *= scale;
+    this.size.height *= scale;
+
+    this.movement.speed *= scale;
+
+    if (this.type === "shot")
+      console.log(
+        `magic position after scaling: ${this.position.x}, ${this.position.y}`
+      );
+    this.isScaled = true;
   }
 }

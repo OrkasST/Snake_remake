@@ -1,4 +1,4 @@
-import { VideoPlayer } from "../Objects/VideoPlayer.js";
+import { VideoPlayer } from "../Utils/VideoPlayer.js";
 
 export class Video_001 {
   constructor() {

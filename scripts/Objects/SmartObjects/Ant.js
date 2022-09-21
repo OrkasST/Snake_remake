@@ -49,28 +49,33 @@ export class Ant extends GameObject {
 
   update(time) {
     this.AI.followPath(this, [1, 2, 3, 4, 5]);
+    let long =
+      this.size.height > this.size.width ? this.size.height : this.size.width;
+    let short =
+      this.size.height < this.size.width ? this.size.height : this.size.width;
+
     switch (this.movement.direction) {
       case "up":
-        this.size.width = 20;
-        this.size.height = 40;
+        this.size.width = short;
+        this.size.height = long;
         this.texture.sx = 0;
         this.texture.sy = 0;
         break;
       case "down":
-        this.size.width = 20;
-        this.size.height = 40;
+        this.size.width = short;
+        this.size.height = long;
         this.texture.sx = 20;
         this.texture.sy = 0;
         break;
       case "left":
-        this.size.width = 40;
-        this.size.height = 20;
+        this.size.width = long;
+        this.size.height = short;
         this.texture.sx = 80;
         this.texture.sy = 10;
         break;
       case "right":
-        this.size.width = 40;
-        this.size.height = 20;
+        this.size.width = long;
+        this.size.height = short;
         this.texture.sx = 40;
         this.texture.sy = 10;
         break;

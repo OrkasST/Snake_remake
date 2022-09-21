@@ -40,8 +40,8 @@ export class Screen {
     y = 0,
     color = "#000000",
     texture = null,
-    width = 10,
-    height = 10,
+    width = this.width,
+    height = this.height,
   }) {
     this.ctx.beginPath();
     this.ctx.fillStyle = color;
@@ -54,10 +54,10 @@ export class Screen {
           texture.height ? texture.height : height,
           x,
           y,
-          texture.width ? texture.width : width,
-          texture.height ? texture.height : height
-          // width,
-          // height
+          // texture.width ? texture.width : width,
+          // texture.height ? texture.height : height
+          width,
+          height
         )
       : this.ctx.fillRect(x, y, width, height);
     this.ctx.closePath();

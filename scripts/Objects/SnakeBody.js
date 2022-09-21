@@ -128,8 +128,10 @@ export class SnakeBody {
           sx: 0,
           sy:
             this.directionCodes[head.movement.direction] *
-              (head.size.height + 4) +
+              (head.texture.height + 4) +
             2,
+          width: head.texture.width,
+          height: head.texture.height,
         },
         color: "#FF0000",
         movement: {
@@ -157,8 +159,10 @@ export class SnakeBody {
             sx: 0,
             sy:
               this.directionCodes[head.movement.direction] *
-                (head.size.height + 4) +
+                (head.texture.height + 4) +
               2,
+            width: head.texture.width,
+            height: head.texture.height,
           },
           position: this.body[this.body.length - 1].position,
         })

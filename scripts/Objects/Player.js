@@ -20,7 +20,7 @@ export class Player extends GameObject {
       currentMP: 3,
       defence: 0,
       physicalAttack: 1,
-      control: 0,
+      control: 1,
       points: 0,
       pointsToGrow: 2,
       upgrades: 0,
@@ -42,6 +42,10 @@ export class Player extends GameObject {
       width: 32,
       height: 32,
     },
+    texture = {
+      width: 32,
+      height: 32,
+    },
     color = "#0000FF",
     interactive = {
       status: false,
@@ -59,6 +63,7 @@ export class Player extends GameObject {
       movement,
       size,
       color,
+      texture,
       interactive,
       isDisplayed,
       isAbleToGrow: true,
@@ -220,6 +225,9 @@ export class Player extends GameObject {
         time,
         ...this.spellList[magic].params,
       };
+      console.log(
+        `spell position in creation data: ${data.position.x}, ${data.position.y}`
+      );
       this.currentSpell = this._createObject(new MagicBall(data));
       // switch (magic) {
       //   case "magic_ball":
@@ -233,22 +241,23 @@ export class Player extends GameObject {
   }
 
   _setMagicPosition() {
+    let magicSize = 64 * (this.size.height / this.texture.height);
     return {
       x:
         Math.floor(this.position.x + this.size.width / 2) -
-        32 -
+        magicSize / 2 -
         (this.movement.direction === "left"
-          ? 64
+          ? magicSize
           : this.movement.direction === "right"
-          ? -64
+          ? -magicSize
           : 0),
       y:
         Math.floor(this.position.y + this.size.height / 2) -
-        32 -
+        magicSize / 2 -
         (this.movement.direction === "up"
-          ? 64
+          ? magicSize
           : this.movement.direction === "down"
-          ? -64
+          ? -magicSize
           : 0),
     };
   }

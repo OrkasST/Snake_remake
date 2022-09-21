@@ -12,7 +12,7 @@ export class AppleSpawner extends Spawner {
     this.applesAmmount = 0;
     this.spawnLimit = 50;
   }
-  spawn({time, position, system}) {
+  spawn({ time, position, system }) {
     if (time - this.previousSpawnTime >= this.interval * 1000)
       this.apples.applesAmmount = 0;
     if (
@@ -27,7 +27,14 @@ export class AppleSpawner extends Spawner {
             x: this.position.x + this.spawnRadius * Math.random(),
             y: this.position.y + this.spawnRadius * Math.random(),
           },
-          { name: this.texture.name, img: this.texture.img, sx: 0, sy: 0 },
+          {
+            name: this.texture.name,
+            img: this.texture.img,
+            sx: 0,
+            sy: 0,
+            width: this.texture.width,
+            height: this.texture.height,
+          },
           this.id
         )
       );

@@ -45,6 +45,7 @@ export class Shot extends GameObject {
       color: "#00FF00",
       texture,
       isDestructive: true,
+      // isScaled: true,
     });
   }
 

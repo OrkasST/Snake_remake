@@ -82,12 +82,16 @@ export class Game {
       }
     }
     if (this.currentScene.type === "game") {
-      // if (this.screen.width < 1000) {
+      // if (this.screen.width < 10000) {
       //   data.forEach((el) => {
       //     if (Array.isArray(el)) {
-      //       return el.forEach((item) => item.setScale(0.5));
+      //       return; //el.forEach((item) => item.setScale(0.5));
       //     }
-      //     el.setScale(0.5);
+      //     if (!el.isScaled) el.setScale(0.5);
+      //     // console.group(el.name);
+      //     // console.log("width: " + el.size.width);
+      //     // console.log("texture width: " + el.texture.width);
+      //     // console.groupEnd();
       //   });
       // }
       this.menu.getParams(this.player.status, [
@@ -104,6 +108,7 @@ export class Game {
       let actionList = this.controller.getActionList();
       if (actionList.length > 0) this.doActions(actionList, time);
       data.forEach((el) => {
+        if (el.name === "music_background" && !el.isStarted) el.play();
         if (
           !Array.isArray(el) &&
           // el.type !== "map_image" &&
@@ -153,6 +158,8 @@ export class Game {
             data[j].isAlive
           )
             souls.push([data[j].position, data[j].status.maxHP]);
+          if (data[j].type === "apple") this.appleIsEaten.play();
+
           data.splice(j, 1);
         }
       }
@@ -325,6 +332,10 @@ export class Game {
   }
 
   createObject(object) {
+    if (object.type === "shot")
+      console.log(
+        `magic position in Game.js: ${object.position.x}, ${object.position.y}`
+      );
     if (object) this.data = [this.data[0], object, ...this.data.slice(1)];
     return object;
   }

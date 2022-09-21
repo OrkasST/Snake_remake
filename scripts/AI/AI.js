@@ -56,7 +56,7 @@ export class AI {
       // console.log("me: ", this.me.position);
       // console.log("size: ", this.me.size);
       // console.groupEnd();
-      debugger;
+      // debugger;
     }
     me.movement.direction = this._localPath[this._localStep];
     this._localStep++;

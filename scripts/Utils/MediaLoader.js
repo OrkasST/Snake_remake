@@ -23,9 +23,16 @@ export class MediaLoader {
   load(name, src) {
     return new Promise((resolve, reject) => {
       const img =
-        this.type === "video" ? document.createElement("video") : new Image();
+        this.type === "video"
+          ? document.createElement("video")
+          : name.split("_")[0] === "music"
+          ? document.createElement("audio")
+          : new Image();
+
       this.loadedMedia[name] = img;
       this.type === "video"
+        ? (img.oncanplaythrough = () => resolve(name))
+        : name.split("_")[0] === "music"
         ? (img.oncanplaythrough = () => resolve(name))
         : (img.onload = () => resolve(name));
       img.onerror = (error) => reject(error);
