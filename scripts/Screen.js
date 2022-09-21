@@ -13,6 +13,13 @@ export class Screen {
     this.ctx = this.cnv.getContext("2d");
     this.camera = new Camera();
     this.loader = new MediaLoader();
+    this.UI = {
+      img: null,
+      sx: 0,
+      sy: 0,
+      width: 1920,
+      height: 1080,
+    };
 
     screen.orientation.onchange = () => {
       screen.orientation.type !== "portrait-primary"
@@ -56,8 +63,8 @@ export class Screen {
           y,
           // texture.width ? texture.width : width,
           // texture.height ? texture.height : height
-          width,
-          height
+          width || texture.width,
+          height || texture.height
         )
       : this.ctx.fillRect(x, y, width, height);
     this.ctx.closePath();
@@ -125,116 +132,95 @@ export class Screen {
 
   drawUI(status) {
     // draw HP bar
-    this._draw({
-      x: 50,
-      y: 30,
-      width: 162,
-      height: 22,
-      color: "#000000",
-    });
-    this._draw({
-      x: 51,
-      y: 31,
-      width: 160,
-      height: 20,
-      color: "#FFFFFF",
-    });
+    // this._draw({
+    //   x: 50,
+    //   y: 30,
+    //   width: 162,
+    //   height: 22,
+    //   color: "#000000",
+    // });
+    // this._draw({
+    //   x: 51,
+    //   y: 31,
+    //   width: 160,
+    //   height: 20,
+    //   color: "#FFFFFF",
+    // });
 
-    let hpGradient = this.ctx.createLinearGradient(0, 31, 0, 51);
+    let hpGradient = this.ctx.createLinearGradient(0, 16, 0, 44);
     hpGradient.addColorStop(0, "#fad7d7");
     hpGradient.addColorStop(0.5, "#7c1515");
     hpGradient.addColorStop(1, "#b57e7e");
     this._draw({
-      x: 51,
-      y: 31,
-      width: (160 / status.maxHP) * status.currentHP,
-      height: 20,
-      color: hpGradient,
-    });
-    this.drawText({
-      font: "15px Arial",
-      color: "#FFFFFF",
-      x: 56,
-      y: 47,
-      text: `${status.currentHP}/${status.maxHP}`,
+      x: 40,
+      y: 16,
+      width: (200 / status.maxHP) * status.currentHP,
+      height: 28,
+      color: "#FF0000",
     });
 
-    // draw MP bar
+    // // draw MP bar
+    // this._draw({
+    //   x: 50,
+    //   y: 60,
+    //   width: 162,
+    //   height: 17,
+    //   color: "#000000",
+    // });
+    // this._draw({
+    //   x: 51,
+    //   y: 61,
+    //   width: 160,
+    //   height: 15,
+    //   color: "#FFFFFF",
+    // });
+    // let mpGradient = this.ctx.createLinearGradient(0, 61, 0, 76);
+    // mpGradient.addColorStop(0, "#b4c2f9");
+    // mpGradient.addColorStop(0.5, "#18157c");
+    // mpGradient.addColorStop(1, "#4b66ff");
     this._draw({
-      x: 50,
-      y: 60,
-      width: 162,
-      height: 17,
-      color: "#000000",
-    });
-    this._draw({
-      x: 51,
-      y: 61,
-      width: 160,
-      height: 15,
-      color: "#FFFFFF",
-    });
-    let mpGradient = this.ctx.createLinearGradient(0, 61, 0, 76);
-    mpGradient.addColorStop(0, "#b4c2f9");
-    mpGradient.addColorStop(0.5, "#18157c");
-    mpGradient.addColorStop(1, "#4b66ff");
-    this._draw({
-      x: 51,
-      y: 61,
+      x: 40,
+      y: 49,
       width: (160 / status.maxMP) * status.currentMP,
-      height: 15,
-      color: mpGradient,
-    });
-    this.drawText({
-      font: "13px Arial",
-      color: "#FFFFFF",
-      x: 58,
-      y: 73,
-      text: `${status.currentMP}/${status.maxMP}`,
+      height: 20,
+      color: "#0000FF",
     });
 
-    // draw stamina bar
+    // // draw stamina bar
+    // this._draw({
+    //   x: 50,
+    //   y: 90,
+    //   width: 162,
+    //   height: 17,
+    //   color: "#000000",
+    // });
+    // this._draw({
+    //   x: 51,
+    //   y: 91,
+    //   width: 160,
+    //   height: 15,
+    //   color: "#FFFFFF",
+    // });
+    // let staminaGradient = this.ctx.createLinearGradient(0, 91, 0, 106);
+    // staminaGradient.addColorStop(0, "#b4f9e5");
+    // staminaGradient.addColorStop(0.5, "#157c70");
+    // staminaGradient.addColorStop(1, "#49909f");
     this._draw({
-      x: 50,
-      y: 90,
-      width: 162,
-      height: 17,
-      color: "#000000",
-    });
-    this._draw({
-      x: 51,
-      y: 91,
-      width: 160,
-      height: 15,
-      color: "#FFFFFF",
-    });
-    let staminaGradient = this.ctx.createLinearGradient(0, 91, 0, 106);
-    staminaGradient.addColorStop(0, "#b4f9e5");
-    staminaGradient.addColorStop(0.5, "#157c70");
-    staminaGradient.addColorStop(1, "#49909f");
-    this._draw({
-      x: 51,
-      y: 91,
+      x: 40,
+      y: 74,
       width: (160 / status.maxStamina) * status.currentStamina,
-      height: 15,
-      color: staminaGradient,
-    });
-    this.drawText({
-      font: "13px Arial",
-      color: "#FFFFFF",
-      x: 58,
-      y: 103,
-      text: `${status.currentStamina}/${status.maxStamina}`,
+      height: 20,
+      color: "#157c70",
     });
 
-    // draw groth status bar
-    this.drawText({
-      font: "20px Arial",
-      color: "#000000",
-      x: this.width - 280,
-      y: 48,
-      text: status.upgrades,
-    });
+    // // draw groth status bar
+    // this.drawText({
+    //   font: "20px Arial",
+    //   color: "#000000",
+    //   x: this.width - 280,
+    //   y: 48,
+    //   text: status.upgrades,
+    // });
 
     this._draw({
       x: this.width - 250,
@@ -299,6 +285,28 @@ export class Screen {
     //   y: 140,
     //   text: `outer_height: ${window.outerHeight}`,
     // });
+    this._draw({ texture: this.UI });
+    this.drawText({
+      font: "18px TimesNewRoman",
+      color: "#FFFFFF",
+      x: 56,
+      y: 35,
+      text: `${status.currentHP}/${status.maxHP}`,
+    });
+    this.drawText({
+      font: "15px Arial",
+      color: "#FFFFFF",
+      x: 56,
+      y: 64,
+      text: `${status.currentMP}/${status.maxMP}`,
+    });
+    this.drawText({
+      font: "15px TimesNewRoman",
+      color: "#FFFFFF",
+      x: 58,
+      y: 88,
+      text: `${status.currentStamina}/${status.maxStamina}`,
+    });
   }
 
   drawScene(scene) {

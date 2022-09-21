@@ -289,6 +289,9 @@ export class Game {
       if (this.currentScene.type === "loading") {
         this.data = [];
         // this.spawners = [];
+        this.media = this.currentScene.loadedMedia;
+        // console.log(this.media);
+        this.screen.UI.img = this.media.UI;
         for (let name in objects) {
           this[name] = objects[name];
           switch (objects[name].type) {

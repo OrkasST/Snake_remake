@@ -48,6 +48,7 @@ export class Game_Part_001 {
       apple: "./../../images/apple.png",
       magic: "./../../images/Magic_ball.png",
       soul: "./../../images/Soul.png",
+      UI: "./../../images/UI.png",
       music_background: "./../../images/music/backgroung_2.mp3",
       music_apple_eaten: "./../../images/music/eating_apple_2.wav",
     };

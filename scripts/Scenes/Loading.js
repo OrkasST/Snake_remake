@@ -28,6 +28,7 @@ export class Loading extends Scene {
     this.timeIsOut = false;
     this.loadingIsFinished = false;
     // this.startTime = null;
+    this.loadedMedia = {};
   }
 
   startProcess(scene) {
@@ -45,6 +46,7 @@ export class Loading extends Scene {
     loader.setMedia(this.loadList);
     loader.loadMedia().then(
       (names) => {
+        // console.log("names: ", names);
         connections = subscribers
           .filter((subscriber) => subscriber.texture)
           .map((subscriber) => {
@@ -52,7 +54,9 @@ export class Loading extends Scene {
               loader.loadedMedia[subscriber.texture.name];
             return subscriber.imageLoaded();
           });
-
+        names.forEach(
+          (name) => (this.loadedMedia[name] = loader.loadedMedia[name])
+        );
         Promise.all(connections).then(() => {
           // console.log("Process Finished");
           this.loadingIsFinished = true;
