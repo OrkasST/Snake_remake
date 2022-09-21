@@ -17,8 +17,8 @@ export class Screen {
       img: null,
       sx: 0,
       sy: 0,
-      width: 1920,
-      height: 1080,
+      width: 300,
+      height: 200,
     };
 
     screen.orientation.onchange = () => {
@@ -285,7 +285,11 @@ export class Screen {
     //   y: 140,
     //   text: `outer_height: ${window.outerHeight}`,
     // });
-    this._draw({ texture: this.UI });
+    
+    //UI image
+    this._draw({ texture: this.UI, width: 300, height: 200 });
+    
+    
     this.drawText({
       font: "18px TimesNewRoman",
       color: "#FFFFFF",
