@@ -13,7 +13,6 @@ export class Collider {
 
   checkCollisions(bodies) {
     bodies.forEach((body) => {
-      // if (Array.isArray(body)) debugger;
       //let checked = 0;
       if (!body.collisionBody) return;
       body.movement.disabledX = "none";

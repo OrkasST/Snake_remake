@@ -1,6 +1,7 @@
 import { Empty } from "./Empty.js";
 import { GameObject } from "./GameObject.js";
 import { FastMagicBall } from "./Magic/FastMagicBall.js";
+import { FireBall } from "./Magic/FireBall.js";
 import { MagicBall } from "./Magic/MagicBall.js";
 import { Shot } from "./Shot.js";
 
@@ -122,6 +123,16 @@ export class Player extends GameObject {
         experiance: 0,
         needToUpdate: 10,
       },
+      fire_ball: {
+        params: {
+          speed: 4,
+          attackMultiplier: 3,
+        },
+        cost: 3,
+        control: 0,
+        experiance: 0,
+        needToUpdate: 10,
+      },
     };
   }
 
@@ -149,6 +160,7 @@ export class Player extends GameObject {
     this.status.maxHP = 10 + this.status.size * 2;
     this.status.currentHP = this.status.maxHP + 0;
     this.status.currentStamina = this.status.maxStamina + 0;
+    this.isInOrderToDestroy = false;
   }
 
   moveTo(position) {
@@ -219,7 +231,10 @@ export class Player extends GameObject {
       let data = {
         id: this.id,
         name: magic,
-        position: this._setMagicPosition(),
+        position:
+          magic === "fire_ball"
+            ? this._setMagicPosition(true)
+            : this._setMagicPosition(),
         size: { width: 64, height: 64 },
         texture: this.classicMagicShotTexture.texture,
         time,
@@ -228,7 +243,10 @@ export class Player extends GameObject {
       console.log(
         `spell position in creation data: ${data.position.x}, ${data.position.y}`
       );
-      this.currentSpell = this._createObject(new MagicBall(data));
+      this.currentSpell =
+        magic === "fire_ball"
+          ? this._createObject(new FireBall(data))
+          : this._createObject(new MagicBall(data));
       // switch (magic) {
       //   case "magic_ball":
       //     this.currentSpell = this._createObject(new MagicBall(data));
@@ -240,7 +258,13 @@ export class Player extends GameObject {
     }
   }
 
-  _setMagicPosition() {
+  _setMagicPosition(arc) {
+    if (arc) {
+      return {
+        x: Math.floor(this.position.x + this.size.width / 2),
+        y: Math.floor(this.position.y + this.size.height / 2),
+      };
+    }
     let magicSize = 64 * (this.size.height / this.texture.height);
     return {
       x:
@@ -271,13 +295,17 @@ export class Player extends GameObject {
   }
 
   update(time) {
+    this.raisePoints(0);
     this.bodyObject.update(this);
     if (this.isCreatingMagic) {
       if (
         this.status.control + this.spellList[this.currentSpell.name].control >
         10
       )
-        this.currentSpell.position = this._setMagicPosition();
+        this.currentSpell.position =
+          this.currentSpell.name === "fire_ball"
+            ? this._setMagicPosition(true)
+            : this._setMagicPosition();
       else this.movement.status = "standing";
 
       if (this.currentSpell.isInOrderToDestroy) {
@@ -285,32 +313,39 @@ export class Player extends GameObject {
         this.currentSpell = null;
         this.lastMagicCreatedTime = time;
       }
-    }
 
-    if (
-      this.isCreatingMagic &&
-      time - this.lastMagicCreatedTime > 500 &&
-      time - this.currentSpell.updateTime > 500 &&
-      this.status.currentMP >= 1
-    ) {
+      let control =
+        this.status.control + this.spellList[this.currentSpell.name].control;
+      let [spellUpgradeTime, manaPerTime] = this._calculateManaStream(control);
+
       if (
-        this.currentSpell.upgrades >=
-        this.status.control + this.spellList[this.currentSpell.name].control
+        time - this.lastMagicCreatedTime > 500 &&
+        time - this.currentSpell.updateTime > spellUpgradeTime &&
+        this.status.currentMP >= 1
       ) {
-        this.isCreatingMagic = false;
-        this.lastMagicCreatedTime = time;
-        this._recalculateHP(
-          this.currentSpell.status.magicAttack + this.currentSpell.upgrades
-        );
-        this.status.currentMP--;
-        this.currentSpell.destroy();
-        this.currentSpell = null;
-        return;
-      }
-      this.status.currentMP--;
-      this.currentSpell.upgrade(time);
-    } else if (this.isCreatingMagic && this.status.currentMP <= 0)
-      this.releaseMagic(time);
+        if (
+          this.currentSpell.upgrades >=
+          this.status.control + this.spellList[this.currentSpell.name].control
+        ) {
+          this.isCreatingMagic = false;
+          this.lastMagicCreatedTime = time;
+          this._recalculateHP(
+            this.currentSpell.status.magicAttack + this.currentSpell.upgrades
+          );
+          this.status.currentMP -= manaPerTime;
+          this.currentSpell.destroy();
+          this.currentSpell = null;
+          return;
+        }
+        let mana =
+          this.status.currentMP - manaPerTime < 0
+            ? this.status.currentMP
+            : manaPerTime;
+        this.status.currentMP -= mana;
+        this.currentSpell.upgrade(time, mana);
+      } else if (this.isCreatingMagic && this.status.currentMP <= 0)
+        this.releaseMagic(time);
+    }
   }
 
   setSpellEXP(name) {
@@ -321,5 +356,13 @@ export class Player extends GameObject {
       spell.control++;
       spell.needToUpdate = Math.floor(spell.needToUpdate * 1.2);
     }
+  }
+
+  _calculateManaStream(control) {
+    let timeDecreases = Math.floor(control / 20);
+    let manaRises = Math.floor(timeDecreases / 2);
+    let interval = 500 - 100 * (timeDecreases % 2);
+    let manaSpeed = 1 * Math.pow(2, manaRises);
+    return [interval, manaSpeed];
   }
 }

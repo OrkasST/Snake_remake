@@ -54,6 +54,7 @@ export class GameObject {
     collisionBody = true,
     hitBox = null, // {x1,x2,y1,y2}
     isAbleToGrow = false,
+    isGrown = false,
   }) {
     this.name = name;
     this.type = type;
@@ -97,10 +98,13 @@ export class GameObject {
     this.killedBy = "";
 
     this.isScaled = false;
+    // if (isGrown) debugger;
+    this.isGrown = isGrown;
   }
   imageLoaded() {}
   destroy(enemy) {
     if (enemy) this.killedBy = enemy;
+    if (this.type === "player") return this.death();
     this.isInOrderToDestroy = true;
   }
   _recalculateHP(damage, object) {

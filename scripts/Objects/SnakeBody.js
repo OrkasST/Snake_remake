@@ -92,7 +92,7 @@ export class SnakeBody {
 
   update(head) {
     // if (this.body.length < this.bodyLength) this._fillBody();
-    // console.log("this.head.status.currentHP: ", this.head.status.currentHP);
+
     if (this.isInJerk) this._jerk();
     if (
       (this.body[0].position.x === head.position.x &&
@@ -104,8 +104,6 @@ export class SnakeBody {
     this.renew(head);
     this._brushTextures();
     if (this.isRunning) this._run(this.axis[head.movement.direction], head);
-
-    // console.log(this.body[0].movement);
   }
 
   renew(head) {
@@ -150,39 +148,40 @@ export class SnakeBody {
   }
 
   grow(ammount, head) {
-    for (let i = 0; i < ammount; i++) {
+    let length = this.body.length - 1;
+    for (let i = 1; i <= ammount; i++) {
       this.body.push(
         new GameObject({
-          isDisplayed: true,
+          isDisplayed: false,
           texture: {
             img: this.texture.img,
             sx: 0,
             sy:
-              this.directionCodes[head.movement.direction] *
+              this.directionCodes[this.body[length].movement.direction] *
                 (head.texture.height + 4) +
               2,
             width: head.texture.width,
             height: head.texture.height,
           },
-          position: this.body[this.body.length - 1].position,
+          size: head.size,
+          position: { ...this.body[length].position },
+          movement: this.body[length].movement,
+          isGrown: true,
         })
       );
-      switch (this.body[this.body.length - 2].movement.direction) {
+
+      switch (this.body[length].movement.direction) {
         case "right":
-          this.body[this.body.length - 1].position.x +=
-            head.movement.speed * (i + 1);
+          this.body[this.body.length - 1].position.x -= head.movement.speed * i;
           break;
         case "left":
-          this.body[this.body.length - 1].position.x -=
-            head.movement.speed * (i + 1);
+          this.body[this.body.length - 1].position.x += head.movement.speed * i;
           break;
         case "up":
-          this.body[this.body.length - 1].position.y -=
-            head.movement.speed * (i + 1);
+          this.body[this.body.length - 1].position.y += head.movement.speed * i;
           break;
         case "down":
-          this.body[this.body.length - 1].position.y +=
-            head.movement.speed * (i + 1);
+          this.body[this.body.length - 1].position.y -= head.movement.speed * i;
           break;
         default:
           break;
@@ -202,7 +201,6 @@ export class SnakeBody {
       this.body[i].position[axis] =
         head.position[axis] +
         ((this.body[n].position[axis] - head.position[axis]) / n) * i;
-      // if (!this.body[i].position.y) debugger;
     }
 
     this.forward ? this.count++ : this.count--;

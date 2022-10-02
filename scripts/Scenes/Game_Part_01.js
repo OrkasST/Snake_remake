@@ -38,9 +38,9 @@ export class Game_Part_001 {
     this.objects.backgroundMusic = new AudioPlayer(
       "music_background",
       true,
-      0.05
+      0.0
     );
-    this.objects.appleIsEaten = new AudioPlayer("music_apple_eaten");
+    this.objects.appleIsEaten = new AudioPlayer("music_apple_eaten", false, 1);
     this.textures = {
       "map-tiles": "/Snake_remake/images/tiles.png",
       snake: "/Snake_remake/images/snake_10.png",

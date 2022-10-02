@@ -8,9 +8,9 @@ export class MagicBall extends Shot {
     this.upgrades = 0;
   }
 
-  upgrade(time) {
-    this.status.magicAttack++;
+  upgrade(time, mana) {
+    this.status.magicAttack += mana;
     this.updateTime = time;
-    this.upgrades++;
+    this.upgrades += mana;
   }
 }

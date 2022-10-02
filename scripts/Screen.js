@@ -78,6 +78,32 @@ export class Screen {
     this.ctx.closePath();
   }
 
+  _drawArc({
+    x = 10,
+    y = 10,
+    radius = 10,
+    angleStart = 0,
+    angleEnd = Math.PI * 2,
+    color = "#000000",
+    filled = true,
+  }) {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = color;
+    this.ctx.arc(x, y, radius, angleStart, angleEnd);
+    this.ctx.closePath();
+    filled ? this.ctx.fill() : this.ctx.stroke();
+  }
+
+  _drawShiningParticle({ x, y, radius, color }) {
+    this._drawArc({ x, y, radius: radius + 9, color: color + "05" });
+    this._drawArc({ x, y, radius: radius + 7, color: color + "0F" });
+    this._drawArc({ x, y, radius: radius + 4, color: color + "1A" });
+    this._drawArc({ x, y, radius: radius + 2, color: color + "26" });
+    this._drawArc({ x, y, radius, color: color + "66" });
+    this._drawArc({ x, y, radius: radius - 1, color: "#FFFFFF26" });
+    this._drawArc({ x, y, radius: radius - 2, color: "#FFFFFF4D" });
+  }
+
   drawText({
     font = "30px Arial",
     color = "#000000",
@@ -110,7 +136,16 @@ export class Screen {
   }
 
   drawArray(array) {
-    for (let i = array.length - 1; i >= 0; i--) this.drawObject(array[i]);
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (array[i].type !== "particle") this.drawObject(array[i]);
+      else {
+        this._drawShiningParticle({
+          ...array[i],
+          x: array[i].x + this.camera.position.x,
+          y: array[i].y + this.camera.position.y,
+        });
+      }
+    }
   }
 
   drawObjectHP(centerX, y, maxHP, currentHP, color = "#FF0000") {
@@ -132,21 +167,6 @@ export class Screen {
 
   drawUI(status) {
     // draw HP bar
-    // this._draw({
-    //   x: 50,
-    //   y: 30,
-    //   width: 162,
-    //   height: 22,
-    //   color: "#000000",
-    // });
-    // this._draw({
-    //   x: 51,
-    //   y: 31,
-    //   width: 160,
-    //   height: 20,
-    //   color: "#FFFFFF",
-    // });
-
     let hpGradient = this.ctx.createLinearGradient(0, 16, 0, 44);
     hpGradient.addColorStop(0, "#fad7d7");
     hpGradient.addColorStop(0.5, "#7c1515");
@@ -159,25 +179,7 @@ export class Screen {
       color: "#FF0000",
     });
 
-    // // draw MP bar
-    // this._draw({
-    //   x: 50,
-    //   y: 60,
-    //   width: 162,
-    //   height: 17,
-    //   color: "#000000",
-    // });
-    // this._draw({
-    //   x: 51,
-    //   y: 61,
-    //   width: 160,
-    //   height: 15,
-    //   color: "#FFFFFF",
-    // });
-    // let mpGradient = this.ctx.createLinearGradient(0, 61, 0, 76);
-    // mpGradient.addColorStop(0, "#b4c2f9");
-    // mpGradient.addColorStop(0.5, "#18157c");
-    // mpGradient.addColorStop(1, "#4b66ff");
+    // draw MP bar
     this._draw({
       x: 40,
       y: 49,
@@ -186,25 +188,7 @@ export class Screen {
       color: "#0000FF",
     });
 
-    // // draw stamina bar
-    // this._draw({
-    //   x: 50,
-    //   y: 90,
-    //   width: 162,
-    //   height: 17,
-    //   color: "#000000",
-    // });
-    // this._draw({
-    //   x: 51,
-    //   y: 91,
-    //   width: 160,
-    //   height: 15,
-    //   color: "#FFFFFF",
-    // });
-    // let staminaGradient = this.ctx.createLinearGradient(0, 91, 0, 106);
-    // staminaGradient.addColorStop(0, "#b4f9e5");
-    // staminaGradient.addColorStop(0.5, "#157c70");
-    // staminaGradient.addColorStop(1, "#49909f");
+    // draw stamina bar
     this._draw({
       x: 40,
       y: 74,
@@ -213,47 +197,20 @@ export class Screen {
       color: "#157c70",
     });
 
-    // // draw groth status bar
-    // this.drawText({
-    //   font: "20px Arial",
-    //   color: "#000000",
-    //   x: this.width - 280,
-    //   y: 48,
-    //   text: status.upgrades,
-    // });
-
-    this._draw({
-      x: this.width - 250,
-      y: 30,
-      width: 182,
-      height: 22,
-      color: "#000000",
-    });
-    this._draw({
-      x: this.width - 249,
-      y: 31,
-      width: 180,
-      height: 20,
-      color: "#FFFFFF",
-    });
-
-    let grothGradient = this.ctx.createLinearGradient(0, 31, 0, 51);
-    grothGradient.addColorStop(0, "#c4f4b9");
-    grothGradient.addColorStop(0.5, "#299914");
-    grothGradient.addColorStop(1, "#209d03");
-    this._draw({
-      x: this.width - 249,
-      y: 31,
-      width: (180 / status.pointsToGrow) * status.points,
-      height: 20,
-      color: grothGradient,
-    });
+    // draw groth status bar
     this.drawText({
-      font: "15px Arial",
+      font: "24px TimesNewRoman",
       color: "#000000",
-      x: this.width - 240,
-      y: 47,
-      text: `${status.points}/${status.pointsToGrow}`,
+      x: this.width - 280,
+      y: 37,
+      text: status.upgrades,
+    });
+    this._draw({
+      x: this.width - 248,
+      y: 16,
+      width: (200 / status.pointsToGrow) * status.points,
+      height: 28,
+      color: "#22f835",
     });
 
     //screen info
@@ -285,31 +242,44 @@ export class Screen {
     //   y: 140,
     //   text: `outer_height: ${window.outerHeight}`,
     // });
-    
+
     //UI image
     this._draw({ texture: this.UI, width: 300, height: 200 });
-    
-    
+    this._draw({
+      x: this.width - 300,
+      y: 0,
+      texture: { ...this.UI, sx: 1628, sy: 0, width: 300, height: 200 },
+      width: 300,
+      height: 200,
+    });
+
     this.drawText({
       font: "18px TimesNewRoman",
       color: "#FFFFFF",
       x: 56,
       y: 35,
-      text: `${status.currentHP}/${status.maxHP}`,
+      text: `${status.currentHP} / ${status.maxHP}`,
     });
     this.drawText({
       font: "15px Arial",
       color: "#FFFFFF",
       x: 56,
       y: 64,
-      text: `${status.currentMP}/${status.maxMP}`,
+      text: `${status.currentMP} / ${status.maxMP}`,
     });
     this.drawText({
       font: "15px TimesNewRoman",
       color: "#FFFFFF",
       x: 58,
       y: 88,
-      text: `${status.currentStamina}/${status.maxStamina}`,
+      text: `${status.currentStamina} / ${status.maxStamina}`,
+    });
+    this.drawText({
+      font: "18px TimesNewRoman",
+      color: "#FFFFFF",
+      x: this.width - 240,
+      y: 36,
+      text: `${status.points} / ${status.pointsToGrow}`,
     });
   }
 

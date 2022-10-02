@@ -32,6 +32,11 @@ export class Game {
       { type: "keyup", code: "KeyQ", action: "release_magic_ball" },
 
       { type: "keydown", code: "KeyE", action: "create_fast_magic_ball" },
+      { type: "keyup", code: "KeyE", action: "release_fast_magic_ball" },
+
+      { type: "keydown", code: "KeyR", action: "create_fire_ball" },
+      { type: "keyup", code: "KeyR", action: "release_fire_ball" },
+
       { type: "keydown", code: "KeyI", action: "upgrade_menu" },
     ]);
     this.dirnCodes = {
@@ -104,7 +109,6 @@ export class Game {
       }
 
       this.collider.checkCollisions(data);
-
       let actionList = this.controller.getActionList();
       if (actionList.length > 0) this.doActions(actionList, time);
       data.forEach((el) => {
@@ -189,7 +193,14 @@ export class Game {
     this.screen.clear();
     if (this.currentScene.type === "game") {
       data.forEach((el) => {
-        if (Array.isArray(el)) this.screen.drawArray(el);
+        if (Array.isArray(el)) {
+          this.screen.drawArray(el);
+          return;
+        }
+        if (el.type === "shot" && el.name.split("_")[0] === "fire") {
+          this.screen.drawArray(el.particles);
+          return;
+        }
         this.screen.drawObject(el);
       });
       this.screen.drawUI(this.player.status);
@@ -205,6 +216,7 @@ export class Game {
   }
 
   move(obj) {
+    if (obj.type === "player") console.log(obj.body.length);
     switch (obj.movement.direction) {
       case "up":
         if (obj.movement.disabledY !== "up")
@@ -230,6 +242,7 @@ export class Game {
       el = el.split("_");
       switch (el[0]) {
         case "move":
+          // debugger;
           if (this[el[1]].movement.disabled === "all") return;
           this[el[1]].movement.status = "moving";
           this[el[1]].movement.direction = el[2];
