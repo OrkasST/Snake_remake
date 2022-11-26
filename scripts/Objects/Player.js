@@ -81,7 +81,7 @@ export class Player extends GameObject {
           sy: 0,
         },
       ],
-      ["imageLoaded", () => {}],
+      ["imageLoaded", () => { }],
     ]);
     this.cost = {
       defence: 1,
@@ -273,16 +273,16 @@ export class Player extends GameObject {
         (this.movement.direction === "left"
           ? magicSize
           : this.movement.direction === "right"
-          ? -magicSize
-          : 0),
+            ? -magicSize
+            : 0),
       y:
         Math.floor(this.position.y + this.size.height / 2) -
         magicSize / 2 -
         (this.movement.direction === "up"
           ? magicSize
           : this.movement.direction === "down"
-          ? -magicSize
-          : 0),
+            ? -magicSize
+            : 0),
     };
   }
 
@@ -312,6 +312,7 @@ export class Player extends GameObject {
         this.isCreatingMagic = false;
         this.currentSpell = null;
         this.lastMagicCreatedTime = time;
+        return;
       }
 
       let control =

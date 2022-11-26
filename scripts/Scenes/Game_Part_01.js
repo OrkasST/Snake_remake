@@ -42,19 +42,19 @@ export class Game_Part_001 {
     );
     this.objects.appleIsEaten = new AudioPlayer("music_apple_eaten", false, 1);
     this.textures = {
-      "map-tiles": "/Snake_remake/images/tiles.png",
-      snake: "/Snake_remake/images/snake_10.png",
-      ant: "/Snake_remake/images/ant.png",
-      apple: "/Snake_remake/images/apple.png",
-      magic: "/Snake_remake/images/Magic_ball.png",
-      soul: "/Snake_remake/images/Soul.png",
-      UI: "/Snake_remake/images/UI.png",
-      music_background: "/Snake_remake/images/music/backgroung_2.mp3",
-      music_apple_eaten: "/Snake_remake/images/music/eating_apple_2.wav",
+      "map-tiles": "./../../media/images/tiles.png",
+      snake: "./../../media/images/snake_10.png",
+      ant: "./../../media/images/ant.png",
+      apple: "./../../media/images/apple.png",
+      magic: "./../../media/images/Magic_ball.png",
+      soul: "./../../media/images/Soul.png",
+      UI: "./../../media/images/UI.png",
+      music_background: "./../../media/images/music/backgroung_2.mp3",
+      music_apple_eaten: "./../../media/images/music/eating_apple_2.wav",
     };
   }
 
-  _update() {}
+  _update() { }
 }
 
 //{ x: 1432, y: 1198 }
@@ -62,26 +62,26 @@ export class Game_Part_001 {
 
 // for git-pages
 // {
-//   "map-tiles": "/Snake_remake/images/tiles.png",
-//   snake: "/Snake_remake/images/snake_10.png",
-//   ant: "/Snake_remake/images/ant.png",
-//   apple: "/Snake_remake/images/apple.png",
-//   magic: "/Snake_remake/images/Magic_ball.png",
-//   soul: "/Snake_remake/images/Soul.png",
-//   UI: "/Snake_remake/images/UI.png",
-//   music_background: "/Snake_remake/images/music/backgroung_2.mp3",
-//   music_apple_eaten: "/Snake_remake/images/music/eating_apple_2.wav",
+//   "map-tiles": "/Snake_remake/media/images/tiles.png",
+//   snake: "/Snake_remake/media/images/snake_10.png",
+//   ant: "/Snake_remake/media/images/ant.png",
+//   apple: "/Snake_remake/media/images/apple.png",
+//   magic: "/Snake_remake/media/images/Magic_ball.png",
+//   soul: "/Snake_remake/media/images/Soul.png",
+//   UI: "/Snake_remake/media/images/UI.png",
+//   music_background: "/Snake_remake/media/music/backgroung_2.mp3",
+//   music_apple_eaten: "/Snake_remake/media/music/eating_apple_2.wav",
 // };
 
 // for pc
 // {
-//   "map-tiles": "./../../images/tiles.png",
-//   snake: "./../../images/snake_10.png",
-//   ant: "./../../images/ant.png",
-//   apple: "./../../images/apple.png",
-//   magic: "./../../images/Magic_ball.png",
-//   soul: "./../../images/Soul.png",
-//   UI: "./../../images/UI.png",
-//   music_background: "./../../images/music/backgroung_2.mp3",
-//   music_apple_eaten: "./../../images/music/eating_apple_2.wav",
+//   "map-tiles": "./../../media/images/tiles.png",
+//   snake: "./../../media/images/snake_10.png",
+//   ant: "./../../media/images/ant.png",
+//   apple: "./../../media/images/apple.png",
+//   magic: "./../../media/images/Magic_ball.png",
+//   soul: "./../../media/images/Soul.png",
+//   UI: "./../../media/images/UI.png",
+//   music_background: "./../../media/music/backgroung_2.mp3",
+//   music_apple_eaten: "./../../media/music/eating_apple_2.wav",
 // };
